@@ -1,0 +1,176 @@
+\documentclass[12 pt]{book}
+\usepackage[activeacute,spanish,mexico,es-tilden]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx,color,listings,hyperref}
+\usepackage{verbatim,xcolor}
+\usepackage{pgf,tikz,geometry,pifont}
+\usepackage{mathtools,array}
+\usepackage{relsize}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{quotchap}
+\usepackage{float}
+\usepackage{authblk}
+\usepackage{subcaption}
+\usepackage[toc,page]{appendix}
+\usepackage{relsize}
+\usepackage{mathrsfs,wrapfig,lipsum}
+\usepackage[fit]{truncate}
+\usepackage{makeidx,example,import}
+\usepackage{blindtext}
+\usepackage[shortlabels]{enumitem}
+\usepackage{titlesec,hyperref, pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{arrows,chains,matrix,positioning,scopes}
+\usepgfplotslibrary{fillbetween}
+
+\usepackage{multirow, makecell, boldline}
+\newcommand{\Gmn}{\Gamma(\mu,\nu)}
+\newcommand{\dmu}{d\mu}
+\newcommand{\dnu}{d\nu}
+\newcommand{\ul}{\underline}
+\newcommand{\norm}[1]{\vert#1\vert}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\ran}{ran}
+\newcommand{\Err}{\mathbf{E}}
+\newcommand{\fk}{\nabla f(x_k)}
+\newcommand{\lp}{\langle\langle}
+\newcommand{\rp}{\rangle\rangle}
+\newcommand{\tmn}{T_{\#} \mu = \nu}
+\newcommand{\ind}{\mathlarger{\mathlarger{\chi}}}
+\DeclareMathOperator{\epi}{epi}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\numberwithin{equation}{section}
+
+\renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
+\renewcommand{\appendixtocname}{Ap\'endices}
+\renewcommand{\appendixpagename}{Ap\'endices}
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\cdot$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\ast$}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} 
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\theoremstyle{plain}
+\newtheorem*{theorem*}{Teorema}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolario}
+\newtheorem*{lemma*}{Lema}
+\newtheorem{lemma}{Lema}
+\newtheorem*{question*}{Pregunta}
+\newtheorem*{problem*}{}
+\theoremstyle{definition}
+\newtheorem*{examplee*}{Ejemplo}
+\newtheorem{examplee}{Ejemplo}
+\newtheorem*{exercise*}{Ejercicio}
+\newtheorem*{definition*}{Definición}
+\newtheorem{definition}{Definición}
+\newtheorem*{proposition*}{Proposición}
+\newtheorem*{claim*}{Afirmación}
+\newtheorem*{notation*}{Notación}
+%\pagestyle{headings}
+\everymath{\displaystyle}
+
+\textwidth     =  6.5in
+\textheight    =  8.2in
+\oddsidemargin =  -0.2in
+\topmargin     = -0.4in
+
+\usepackage{fncychap}
+\ChNameVar{\centering\Huge\rm\bfseries}
+\ChNumVar{\Huge}
+\ChNameUpperCase
+\ChRuleWidth{2pt}
+
+\pgfplotsset{compat=1.13}
+\makeindex
+\begin{document}
+
+\frontmatter
+\import{./}{title.tex}
+
+\import{./}{quote.tex}
+
+\pagenumbering{gobble}
+\let\cleardoublepage\clearpage
+\tableofcontents
+\clearpage
+\thispagestyle{empty}
+
+\let\cleardoublepage\clearpage
+
+\mainmatter
+\ChTitleUpperCase
+
+\chapter{Introducción}
+\noindent
+\rule{\textwidth}{1pt}
+\import{chapters/}{cap1.tex}
+\chapter{Conceptos de Aprendizaje de Máquina}
+\noindent
+\rule{\textwidth}{1pt}
+\import{chapters/}{cap2.tex}
+\chapter{Conceptos de redes neuronales}
+\noindent
+\rule{\textwidth}{1pt}
+\import{chapters/}{cap3.tex}
+\chapter{Experimento con texto}
+\noindent
+\rule{\textwidth}{1pt}
+\import{chapters/}{cap4.tex}
+\chapter{Experimento con caligrafía en línea}
+\noindent
+\rule{\textwidth}{1pt}
+\import{chapters/}{cap5.tex}
+
+\backmatter
+%\chapter{Apéndice 1.}
+%\noindent
+%\rule{\textwidth}{1pt}
+%\import{apendices/}{apendice1.tex}
+%\chapter{Apéndice 2. }
+%\noindent
+%\rule{\textwidth}{1pt}
+%\import{apendices/}{apendice2.tex}
+\bibliographystyle{siam}
+\bibliography{biblio}
+
+\newpage
+\end{document}
