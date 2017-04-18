@@ -1,5 +1,5 @@
 \section{Introducción}
-El aprendizaje profundo es un tipo específico de aprendizaje de máquina. Por esta razón, y, para abordar el aprendizaje profundo con más naturalidad, se explicarán los conceptos básicos de aprendizaje de máquina en este capítulo. Comenzaremos este capítulo explicando lo que es un algoritmo de aprendizaje. Después, explicaremos
+El aprendizaje profundo es un tipo específico de aprendizaje de máquina. Por esta razón, y, para abordar el aprendizaje profundo con más naturalidad, se explicarán los conceptos básicos de aprendizaje de máquina en este capítulo. Comenzaremos este capítulo explicando lo que es un algoritmo de aprendizaje. Después, se explicarán algunas propiedades importantes de ellos: su capacidad, sus hiperparámetros y su algoritmo de optimización. Se finalizará el capítulo hablando sobre las limitaciones que se han tenido al utilizar algoritmos de aprendizaje de máquina tradicional.
 
 \section{Algoritmos de aprendizaje}
 Un algoritmo de aprendizaje de máquina es un algoritmo que es capaz de aprender de datos. Pero, ¿qué quiere decir exactamente aprender? Tom Mitchell, en su libro "Machine Learning", da la siguiente definición: un programa de computadora, se dice que aprende de la experiencia $E$ con respecto a alguna clase de tareas $T$ y una medida de desempeño $P$, si su desempeño en las tareas $T$, al ser medido por $P$, mejora con la experiencia $E$. A continuación, se presentarán algunos ejemplos de tareas $T$, experiencias $E$ y medidas de desempeño $P$. \cite{Mitchell:1997:ML:541177}
@@ -9,7 +9,7 @@ El aprendizaje de máquina nos permite abordar tareas que son muy difíciles de 
 
 \vspace{1em}
 
-En esta definición de la palabra "tarea", el proceso de aprender no es en sí mismo la tarea. Aprender es nuestro medio de conseguir la habilidad para realizar la tarea. Por ejemplo, si queremos que un robot sea capaz de manejar, entonces manejar es la tarea. Podríamos programar al robot para que aprenda a manejar, o podríamos intentar escribir directamente un programa que especifique como manejar manualmente. \cite{goodfellow-et-al-2016} \cite{Mitchell:1997:ML:541177}
+En esta definición de la palabra $``$tarea$"$, el proceso de aprender no es en sí mismo la tarea. Aprender es nuestro medio de conseguir la habilidad para realizar la tarea. Por ejemplo, si queremos que un robot sea capaz de manejar, entonces manejar es la tarea. Podríamos programar al robot para que aprenda a manejar, o podríamos intentar escribir directamente un programa que especifique como manejar manualmente. \cite{goodfellow-et-al-2016} \cite{Mitchell:1997:ML:541177}
 
 \vspace{1em}
 
@@ -96,7 +96,11 @@ El teorema de $``$no free lunch$"$ implica que se debe diseñar los algoritmos p
 
 Por ejemplo, se puede modificar el criterio de entrenamiento de una regresión lineal para incluir decaímento de pesos. Para realizar una regresión lineal con decaímento de pesos, se minimiza una suma que contiene al error cuadrático medio del entrenamiento y un criterio $J(w)$ que expresa una preferencia para que los pesos tengan una norma menor. En específico: 
 
+\begin{equation}
+\begin{split}
 $$ J(w) = ECM_{entrenamiento} + \lambda w^\intercal w$$
+\end{split}
+\end{equation}
 
 donde $\lambda$ es un valor escogido con anterioridad que controla nuestra preferencia por pesos más pequeños. Cuando $\lambda = 0$, no se impone preferencia, y cuando se hace crecer a $\lambda$ se forza a los pesos a hacerse más pequeños. Al minimizar $J(w)$, se obtiene una elección de pesos que compensa entre ajustar los datos de entrenamiento y mantenerlos pequeños.
 
@@ -123,7 +127,7 @@ En específico, se divide al conjunto de entrenamiento en dos subconjuntos disju
 \cite{goodfellow-et-al-2016}
 \cite{hastie01statisticallearning}
 
-\subsection{Validación Cruzada}
+\subsection{Validación cruzada}
 Dividir al conjunto de datos disponible en un conjunto fijo de entrenamiento y un conjunto fijo de prueba puede ser problemático si el conjunto de prueba resulta ser demasiado pequeño. Un conjunto de prueba pequeño implica incertidumbre en el error de prueba estimado. Esta incertidumbre hace que sea difícil afirmar si un algoritmo es mejor que otro. 
 
 \vspace{1em}
@@ -145,19 +149,36 @@ Este algoritmo funciona bien cuando se utilizan bases de datos muy grandes. Se s
 
 Sin embargo, con gradiente estocástico, se busca que el costo computacional no crezca al tomar solo una parte de los ejemplos para calcular los gradientes. Es decir que si nuestra función de pérdida se puede descomponer como una suma sobre los ejemplos de entrenamiento, entonces:
 
+\begin{equation}
+\begin{split}
 $$J(\theta) = \frac{1}{m}\sum_{1}^{m}L(x^{(i)},y^{(i)},\theta)$$
+\end{split}
+\end{equation}
 
 Lo que hace descenso de gradiente es calcular:
 
-$$\nabla_{\theta}J(\theta) = \frac{1}{m}\sum_{1}^{m}\nabla_{\theta} L(x^{(i)},y^{i},\theta) $$
+\begin{equation}
+\begin{split}
+$$\nabla_{\theta}J(\theta) = \frac{1}{m}\sum_{1}^{m}\nabla_{\theta} L(x^{(i)},y^{(i)},\theta) $$
+\end{split}
+\end{equation}
 
 En vez de calcular la suma sobre todos los ejemplos, se puede seleccionar una $``$mini-batch$"$ de ejemplos $\mathbb{B} = \{x^{(1)}, ... , x^{(m')}\}$ de entre los ejemplos de entrenamiento. El tamaño de la $``$mini-batch$"$ de ejemplos $m'$ se escoge de tal forma que sea un número relativamente bajo, entre 1 y unos cuantos cientos. La estimación del gradiente que se obtiene es:
 
+\begin{equation}
+\begin{split}
 $$g = \frac{1}{m'}\sum_{1}^{m'}\nabla_{\theta} L(x^{(i)},y^{(i)},\theta) $$
+\end{split}
+\end{equation}
 
 usando ejemplos de la $``$mini-batch$"$ $\mathbb{B}$. Después de calcular el gradiente estocástico, el algoritmo sigue el descenso estimado:
 
+
+\begin{equation}
+\begin{split}
 $$\theta \leftarrow \theta - \epsilon g$$
+\end{split}
+\end{equation}
 
 donde $\epsilon$ es la tasa de aprendizaje.
 \cite{goodfellow-et-al-2016}
@@ -171,4 +192,25 @@ La función de costo generalmente incluye al menos un término que hace que el p
 \cite{goodfellow-et-al-2016}
 
 \section{Limitaciones en aprendizaje de máquina tradicional}
-Los algoritmo de aprendizaje de máquina tradicional tienen buen desempeño en una gran variedad de problemas importantes. Sin embargo, no han tenido éxito en resolver los problemas principales de inteligencia artificial como interpretar lenguaje hablado o reconocer objetos en imágenes. El desarrollo del aprendizaje profundo fue motivado en parte por el fracaso de los algoritmos tradicionales para generalizar bien en dichas tareas.
+Los algoritmos de aprendizaje de máquina tradicional tienen buen desempeño en una gran variedad de problemas importantes. Sin embargo, no han tenido éxito en resolver los problemas principales de inteligencia artificial como interpretar lenguaje hablado o reconocer objetos en imágenes. El desarrollo del aprendizaje profundo fue motivado en parte por el fracaso de los algoritmos tradicionales para generalizar bien en dichas tareas.
+
+\vspace{1em}
+
+A continuación, se expondrá un problema que aparece para aprender de los datos cuando estos tienen dimensiones muy grandes. Trabajar en espacios de dimensión alta genera grandes costos computacionales. El aprendizaje profundo fue creado para resolver este y otros obstáculos.
+\cite{goodfellow-et-al-2016}
+
+\subsection{La maldición de la dimensión}
+Parecería razonable que con un conjunto de datos grande siempre sería posible aproximar bien una función. Para hacer esto solo bastaría tomar un gran vecindario de observaciones cercano a cualquier $x$ y promediarlos. Sin embargo, este enfoque deja de funcionar por un fenómeno conocido como la maldición de la dimensión.
+\cite{Bishop:2006:PRM:1162264}
+\cite{hastie01statisticallearning}
+\cite{Murphy:2012:MLP:2380985}
+
+\vspace{1em}
+
+Este concepto se expondrá con un ejemplo de (Hastie et al. 2001, p22). Supongamos que se utiliza un método de vecinos más cercanos para datos de entrada uniformamente distribuidos en un hipercubo unitario $p$-dimensional. Supongamos que se emplea una vecindad hipercúbica alrededor de un punto objetivo para capturar una fracción $r$ de las observaciones. Como esto corresponde a una fracción $r$ del volumen unitario, el tamaño esperado del borde será $e_p(r) = r^{\frac{1}{p}}$. En 10 dimensiones $e_10(0.01)=0.63$ y $e_10(0.1) = 0.80$. Por lo que para capturar $1\%$ o $10\%$ de los datos para formar un promedio local, se necesita cubrir $63\%$ o $80\%$ del rango para cada variable de entrada. Claramente, estos vecinarios ya no son locales. \cite{hastie01statisticallearning}
+
+\vspace{1em}
+
+En otras palabras, la maldición de la dimensión es un desafío estadístico. Cuando aumentan las dimensiones de los datos de entrada, el número de posibles configuraciones en las variables aumenta exponencialmente. Por lo tanto el desafío estadístico aparece debido a que el número de posibles configuraciones es mayor que el número de ejemplos de entrenamiento.
+\cite{goodfellow-et-al-2016}
+
