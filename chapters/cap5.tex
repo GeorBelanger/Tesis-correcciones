@@ -15,7 +15,7 @@ En el siguiente capítulo, se comenzará por dar más detalles sobre la base de 
 
 
 \section{Descripción de la base de datos}
-La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700. En la figura 5.1, se puede ver una muestra de los datos
+La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700. En la figura 5.1, tomada de (Graves, 2013) se puede ver una muestra de los datos
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{figure}[h]
@@ -26,10 +26,10 @@ La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea regist
 \end{figure}
 
 \section{Descripción del modelo}
-Como se menciono en la introducción del capítulo, el modelo utilizado para este experimento tiene 3 partes principales: las unidades de memoria LSTM, un mecanismo de atención y una red de densidad mixta. Las unidades de memoria LSTM se explicaron en el capítulo 3, por lo que, en esta sección, se explicará cómo funciona la densidad mixta en el modelo y después se describirá el mecanismo de atención. 
+Como se mencionó en la introducción del capítulo, el modelo utilizado para este experimento tiene 3 partes principales: las unidades de memoria LSTM, un mecanismo de atención y una red de densidad mixta. Las unidades de memoria LSTM se explicaron en el capítulo 3, por lo que, en esta sección, se explicará cómo funciona la densidad mixta en el modelo y después se describirá el mecanismo de atención. 
 
 \subsection{Red de densidad mixta}
-En la sección 3.2, se dio una breve introducción a redes de densidad mixta. El objetivo de estas es usar los datos de salida de una red neuronal para parametrizar una mezcla de distribuciones. Una parte de los datos de salida se usa para definir los pesos de mezcla y el resto para parametrizar las componentes de las mezclas individuales. Los pesos de mezcla se normalizan con una función softmax y a los demás datos de salida se les aplican funciones adecuadas para mantener sus valores en un rango adecuado. La red de densidad mixta se entrena maximizando la log probabilidad de los objetivos bajo las distribuciones inducidas.
+En la sección 3.2, se dio una breve introducción a redes de densidad mixtas. El objetivo de estas es usar los datos de salida de una red neuronal para parametrizar una mezcla de distribuciones. Una parte de los datos de salida se usan para definir los pesos de mezcla y el resto para parametrizar las componentes de las mezclas individuales. Los pesos de mezcla se normalizan con una función softmax y a los demás datos de salida se les aplican funciones adecuadas para mantener sus valores en un rango adecuado. La red de densidad mixta se entrena maximizando la log probabilidad de los objetivos bajo las distribuciones inducidas.
 \cite{DBLP:journals/corr/Graves13}
 
 \vspace{1em}
@@ -189,10 +189,95 @@ Los parámetros de ubicación $\kappa_t$ se definen como la diferencia con respe
 
 \section{Resultados}
 
+A continuación se mostrarán los resultados que entregó el algoritmo implementado por el autor. El código se puede encontrar en http://github.com/GeorBelanger/
 
 \vspace{1em}
 
+Para elegir los hiperparámetros del modelo, se tomó como base (Graves, 2013). Sin embargo, debido a que no se contaba con la suficiente capacidad computacional, se redujeron algunos parámetros para poder entrenar el modelo en un tiempo razonable, como por ejemplo el número de unidades LSTM en cada capa oculta.
+
+\vspace{1em}
+
+El modelo utilizó 3 capas ocultas con 200 unidades LSTM en cada una, los batches con tamaño 64, 8 gaussianas en la capa de salida, a rmsprop como algoritmo de optimización y recorte de gradiente a 10. La red recurrente se desenrolló 150 pasos de tiempo y el promedio de pasos de tiempo o trazos de cada letra se fijo en 25. Por lo que el algoritmo se fija en promedio en las 6 letras anteriores para hacer el siguiente trazo. Para la generación de sucesiones, se escogieron frases que tuvieran que ver con la misión, filosofía o mercadotecnia del ITAM.
+
+\vspace{1em}
+
+ En la figura 5.3, se puede ver generación de caligrafía condicionada en la frase: $``$Por un México más libre$"$ después de la iteración 4700 del algoritmo. En esta primera prueba, solo se generaron los primeros 6 caracteres de las sucesiones, contando al espacio.
 
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics{./imag/porunmexico4700.png}
+\end{center}
+\caption{}
+\end{figure}
+
+Se puede ver que el algoritmo ya comienza a aprender a escribir las letras. En la figura 5.4, se puede ver la operación de la capa de densidad mixta aplicada a este ejemplo.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics{./imag/porunmexico4700g.png}
+\end{center}
+\caption{}
+\end{figure}
+
+Se intentaron construir sucesiones más largas. En la figura 5.5, se puede ver la generación de caligrafía basada en la frase $``$solo hay un itam$"$ que se produjo en la iteración 7,500. Se puede ver que la primera parte de la frase la escribe sin problemas pero después de escribir "un", parece que pierde un poco el rumbo. La alineación entre el texto que se quiere escribir y la caligrafía, manejada por el mecanismo de atención, todavía tiene algunas fallas
 
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics{./imag/solo7500.png}
+\end{center}
+\caption{}
+\end{figure}
+
+\vspace{1em}
+
+En la figura 5.6, se puede ver la generación de caligrafía basada en la frase $``$contribuir a la formación integral $"$ que se produjo en la iteración 8,700. Se puede ver que ya escribe bastante bien y el mecanismo de atención funciona en general, aunque en algunos lugares falla, como en la doble $``$b$"$ que se ve en la figura 5.6. Esto se debe probablemente el mecanismo de atención estuvo demasiados pasos de tiempo $``$dibujando$"$ a $``$b$"$ y entonces la dibujó dos veces. 
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics{./imag/contribuir8700.png}
+\end{center}
+\caption{}
+\end{figure}
+
+Para la iteración 10,000, el modelo ya ha aprendido a seguir las letras utilizando el mecanismo de atención, aunque todavía hay algunas letras que tienen algunos problemas. Por ejemplo, en la figura 5.7, se ve la escritura de $``$Por un México más libre$"$. Se puede ver que el error más grande fue que el algoritmo no produjo la $``$x$"$ de México. Esto se debe probablemente a que como la $``$x$"$ es una letra poco común, el mecanismo de atención no ha tenido suficientes ejemplos para aprender a hacerla.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{./imag/por_un_10000.png}
+\end{center}
+\caption{}
+\end{figure}
+
+Para completar el lema del ITAM, en la figura 5.8, se puede ver la generación del texto $``$más justo y más próspero$"$. Aquí el algoritmo tiene problemas para escribir las $``$s$"$, y al final de $``$próspero$"$, todavía quedan trazos por hacer, por lo que aparece una $``$n$"$ $``$no invitada$"$ al final.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{./imag/justo10000.png}
+\end{center}
+\caption{}
+\end{figure}
+
+\vspace{3em}
+
+Por último, en las figuras 5.9 y 5.10, se puede ver la generación del texto $``$solo hay un itam$"$. El algoritmo escribe bastante bien esta frase. Ha aprendido a escribir las letras y seguir de manera adecuada al mecanismo de atención.  La única falla que tuvo es que tal vez falta un poco de espacio entre la palabra $``$un$"$ y la palabra $``$itam$"$.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{./imag/solo4.png}
+\end{center}
+\caption{}
+\end{figure}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{./imag/solo5.png}
+\end{center}
+\caption{}
+\end{figure}
+
+\vspace{3em}
+
+Los resultados aquí expuestos muestran el poder que tienen los modelos explicados para generar sucesiones complejas de dependencias de largo plazo. La calidad de la escritura todavía podría mejorar si como (Graves, 2013) se utilizara un modelo más grande y se entrenara por más tiempo. Sin embargo, no se cuenta con la capacidad computacional necesaria y para este trabajo bastará mostrar el potencial que tienen los modelos.
+\cite{DBLP:journals/corr/Graves13}

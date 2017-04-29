@@ -1,5 +1,5 @@
 \section{Introducción}
-La mayoría de los modelos de aprendizaje de máquina tienen una arquitecura simple de dos capas. Sin embargo, al analizar el cerebro humano, se puede ver que este tiene muchos niveles de procesamiento. Se cree que cada capa aprende características o representaciones con niveles crecientes de abstracción. Por ejemplo, el modelo estandar del cortex humano sugiere que el cerebro primero extrae bordes, después pequeñas áreas, después superficies, después objetos, etc. Esta observación ha inspirado a un area del aprendizaje de máquina conocida como aprendizaje profundo que intenta replicar este tipo de arquitectura en una computadora.
+La mayoría de los modelos de aprendizaje de máquina tienen una arquitecura simple de dos capas. Sin embargo, al analizar el cerebro humano, se puede ver que este tiene muchos niveles de procesamiento. Se cree que cada capa aprende características o representaciones con niveles crecientes de abstracción. Por ejemplo, el modelo estándar del cortex humano sugiere que el cerebro primero extrae bordes, después pequeñas áreas, después superficies, después objetos, etc. Esta observación ha inspirado a un area del aprendizaje de máquina conocida como aprendizaje profundo que intenta replicar este tipo de arquitectura en una computadora.
 \cite{Murphy:2012:MLP:2380985}
 
 \vspace{1em}
@@ -26,7 +26,7 @@ Actualmente, el aprendizaje profundo sigue en desarrollo. Sin embargo, este ya r
 
 \vspace{1em}
 
-En el siguiente capítulo se describirá el modelo básico de redes neuronales. Después, se explicarán los principales métodos de regularización y de optimización. Finalmente, se explicarán los conceptos de redes neuronales recurrentes que se utilizarán para los experimentos de los capítulos 4 y 5.
+En el siguiente capítulo se describirá el modelo básico de redes neuronales. Después, se explicarán conceptos importantes de regularización y de optimización. Finalmente, se explicarán los conceptos de redes neuronales recurrentes que se utilizarán para los experimentos de los capítulos 4 y 5.
 
 \section{Redes neuronales prealimentadas}
 Las redes neuronales prealimentadas, también conocidas como perceptrones multicapa son el modelo básico del aprendizaje profundo. El objetivo de estas es aproximar una función $f^*$. Una red neuronal prealimentada define un mapeo $y = f(x;\theta)$ y aprende el valor de los parametros $\theta$ que resulten en la mejor función de aproximación. 
@@ -34,6 +34,7 @@ Las redes neuronales prealimentadas, también conocidas como perceptrones multic
 \vspace{1em}
 
 Estos modelos se conocen como prealimentados porque la información fluye a través de la función al ser evaluada en $x$, después, a través de los cálculos intermedios utilizados para definir a $f$, y, finalmente, para obtener los datos de salida $y$. No hay conexiones cíclicas en las que un dato de salida del modelo sirva de nuevo como dato de entrada. Cuando esto sucede, el modelo se conoce como red neuronal recurrente.
+\cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
@@ -50,7 +51,7 @@ Finalmente, estas redes se conocen como neuronales porque están inspiradas en e
 
 \vspace{1em}
 
-Para hacer la idea de una red neuronal más concreta, se dará un pequeño ejemplo con una capa oculta y dos unidades ocultas. Queremos escoger la forma de nuestro modelo $f(x;\theta) = f^{(2)}(f^{(1)}(x))$. Las unidades ocultas $h$ de esta red neuronal son calculadas por una función $f^{(1)}(x;W,c)$. Los valores de estas unidades ocultas después son utilizadas como datos de entrada para la segunda capa. 
+Para hacer la idea de una red neuronal más concreta, se dará un pequeño ejemplo con una capa oculta y dos unidades ocultas. Se quiere escoger la forma de nuestro modelo $f(x;\theta) = f^{(2)}(f^{(1)}(x))$. Las unidades ocultas $h$ de esta red neuronal son calculadas por una función $f^{(1)}(x;W,c)$. Los valores de estas unidades ocultas después son utilizadas como datos de entrada para la segunda capa. 
 
 \vspace{1em}
 
@@ -125,7 +126,7 @@ Las unidades ocultas es un tema exclusivo de las redes neuronales, puesto que es
 
 \vspace{1em}
 
-Una de las unidades ocultas más utilizadas es la ReLU, $``$Rectified Linear Unit$"$, la cual no es otra cosa más que $g(z) = max\{0,z\}$. Existen varias unidades ocultas, incluyendo la ReLU, que no son diferenciables en todos sus puntos. Se podría pensar que esto invalida a las funciones para ser utilizadas con algoritmos de descenso de gradiente. Pero en la práctica, descenso de gradiente funciona suficientemente bien. Esto es en parte porque los algoritmos con redes neuronales generalmente no llegan a un mínimo local de la función objetivo, sino que simplemente reducen su valor significativamente. \cite{goodfellow-et-al-2016}
+ Existen varias unidades ocultas, incluyendo la ReLU, que no son diferenciables en todos sus puntos. Se podría pensar que esto invalida a las funciones para ser utilizadas con algoritmos de descenso de gradiente. Pero en la práctica, descenso de gradiente funciona suficientemente bien. Esto es en parte porque los algoritmos con redes neuronales generalmente no llegan a un mínimo local de la función objetivo, sino que simplemente reducen su valor significativamente. \cite{goodfellow-et-al-2016}
 
 \subsection{Diseño de la arquitectura de la red}
 Otra consideración importante para el diseño de la red es su arquitectura, es decir, su estructura en términos generales: cuántas unidades tendrá y cómo se conectan estas unidades entre ellas. La mayoría de las redes neuronales están organizadas en capas y estas capas se conectan en cadena, donde cada capa es una función de la capa que le precede. Con esta estructura, la primera capa está dada por:
@@ -154,7 +155,9 @@ En las redes neuronales prealimentadas, cuando le damos al modelo datos de entra
 \cite{goodfellow-et-al-2016}
 \cite{Rumelhart:1986:LIR:104279.104293}
 
-A menudo se piensa que el al algoritmo de propagación hacia atrás es todo el algoritmo de aprendizaje para redes neuronales. Esto es falso, el algoritmo de propagación hacia atrás solo se refiere al método para calcular el gradiente, mientras que otro algoritmo, descenso de gradiente estocástico, es usado para aprender utilizando este gradiente. 
+\vspace{1em}
+
+A menudo se piensa que el algoritmo de propagación hacia atrás es todo el algoritmo de aprendizaje para redes neuronales. Esto es falso, el algoritmo de propagación hacia atrás solo se refiere al método para calcular el gradiente, mientras que otro algoritmo, descenso de gradiente estocástico, es usado para aprender utilizando este gradiente. 
 \cite{goodfellow-et-al-2016}
 
 \subsection{Propagación hacia atrás con gráficas computacionales}
@@ -302,11 +305,11 @@ Otro ejemplo sería considerar un sistema dinámico afectado por una señal exte
 
 \begin{equation}
 \begin{split}
-$$h^{(t)}=f(h^{(t-1)},h^{(t)};\theta)$$
+$$h^{(t)}=f(h^{(t-1)},x^{(t)};\theta)$$
 \end{split}
 \end{equation}
 
-Muchas redes neuronales recurrentes utilizan la ecuación $(3.3.3)$ para definir su estado oculto o $``$hidden state$"$ en inglés; por eso, se utilizará la letra $h$ para describir la sucesión. Una red neuronal recurrente normalmente tiene también una capa de salida que lee información del estado $h$ para hacer predicciones.
+Muchas redes neuronales recurrentes utilizan la ecuación $(3.5.3)$ para definir su estado oculto o $``$hidden state$"$ en inglés; por eso, se utilizará la letra $h$ para describir la sucesión. Una red neuronal recurrente normalmente tiene también una capa de salida que lee información del estado $h$ para hacer predicciones.
 \cite{goodfellow-et-al-2016}
 
 
@@ -317,11 +320,11 @@ Muchas redes neuronales recurrentes utilizan la ecuación $(3.3.3)$ para definir
 \caption{}
 \end{figure}
 
-La red neuronal recurrente en la figura $3.2$ incorpora información de los datos de entrada $x$ al estado $h$ a través del tiempo. El cuadrado negro en las gráficas indicará el retraso en un paso de tiempo.
+En las figuras 3.1 y 3.2, tomadas de (goodfellow, 2016), se puede ver el desdoblamiento de las gráficas. La red neuronal recurrente en la figura $3.2$ incorpora información de los datos de entrada $x$ al estado $h$ a través del tiempo. El cuadrado negro en las gráficas indicará el retraso en un paso de tiempo.
 \cite{goodfellow-et-al-2016}
 
 \subsection{Redes neuronales recurrentes}
-Con los conceptos hasta ahora desarrollados, ya se pueden construír una variedad de redes neuronales. Se ejemplificará esto con el modelo básico que usará en los capítulos 4 y 5 para desarrollar los experimentos. Esta es una red neuronal que produce un dato de salida en cada paso de tiempo y tiene conexiones recurrentes entre las capas ocultas. En la figura (3.3) se muestra la gráfica computacional enrrollada y desenrrollada.
+Con los conceptos hasta ahora desarrollados, ya se pueden construír una variedad de redes neuronales. Se ejemplificará esto con el modelo básico que usará en los capítulos 4 y 5 para desarrollar los experimentos. Esta es una red neuronal que produce un dato de salida en cada paso de tiempo y tiene conexiones recurrentes entre las capas ocultas. En la figura 3.3, tomada de (Goodfellow, 2016), se muestra la gráfica computacional enrrollada y desenrrollada.
 \cite{goodfellow-et-al-2016}
 
 \begin{figure}[h]
@@ -354,7 +357,7 @@ $$o^{(t)}=c+Vh^{(t)}$$
 \end{equation}
 \begin{equation}
 \begin{split}
-$$\hat{y}^{(t)}=softmax(o^{(t)})$$
+$$\hat{y}^{(t)}=\mathrm{softmax}(o^{(t)})$$
 \end{split}
 \end{equation}
 
@@ -398,10 +401,12 @@ Por lo que los valores propios, $\lambda_i$ cuyo valor absoluto no sea cercano a
 \cite{goodfellow-et-al-2016}
 \cite{Haykin:1998:NNC:521706}
 
+\vspace{1em}
+
 Se explicará a continuación el método para resolver el problema del gradiente explosivo: recorte de gradiente. La solución para el problema del gradiente evanescente, la memoria corta de largo plazo, se explicará en la siguiente sección.
 
 \subsection{Recorte de gradiente}
-Una técnica para evitar el problema del gradiente explosivo es el recorte de gradiente. Este es un problema relevante, pues si el gradiente de un parámetro es demasiado grande, al hacer la actualización se puede acabar muy lejos del punto original y en una región donde la función objetivo tenga un valor mayor. En la figura (3.4) se da un ejemplo de las complicaciones que pueden aparecer.
+Una técnica para evitar el problema del gradiente explosivo es el recorte de gradiente. Este es un problema relevante, pues si el gradiente de un parámetro es demasiado grande, al hacer la actualización se puede acabar muy lejos del punto original y en una región donde la función objetivo tenga un valor mayor. En la figura (3.4), tomada de (Goodfellow, 2016), se da un ejemplo de las complicaciones que pueden aparecer.
 \cite{goodfellow-et-al-2016}
 \cite{DBLP:journals/corr/abs-1211-5063}
 
@@ -419,11 +424,12 @@ La solución a esto es recortar el gradiente. Es decir, elegir una cota máxima 
 \cite{DBLP:journals/corr/abs-1211-5063}
 
 \section{Memoria larga de corto plazo}
-La memoria larga de corto plazo es un tipo de unidad recurrente con $``$compuertas$"$. Estas compuertas se construyen de tal forma que los caminos de la gráfica computacional tengan derivadas que no exploten ni se desvanezcan. De esta forma se puede acumular información por un largo periodo de tiempo, y si la información ha sido usada y el sistema no la necesita más, también la puede borrar de la memoria. En la figura (3.5) se muestra la estructura de una $``$celda$"$ de memoria larga de corto plazo. Nos referiremos a estas como LSTM de ahora en adelante, por su nombre en inglés $``$long short-term memory$''$.
+La memoria larga de corto plazo es un tipo de unidad recurrente con $``$compuertas$"$. Estas compuertas se construyen de tal forma que los caminos de la gráfica computacional tengan derivadas que no exploten ni se desvanezcan. De esta forma se puede acumular información por un largo periodo de tiempo, y si la información ha sido usada y el sistema no la necesita más, también la puede borrar de la memoria. En la figura (3.5), tomada de (Goodfellow, 2016) se muestra la estructura de una $``$celda$"$ de memoria larga de corto plazo. Nos referiremos a estas como LSTM de ahora en adelante, por su nombre en inglés $``$long short-term memory$''$.
 \cite{Gers:2000}
 \cite{goodfellow-et-al-2016}
 \cite{Hochreiter:1997:LSM:1246443.1246450}
 
+\vspace{1em}
 
 \begin{figure}[h]
 \begin{center}

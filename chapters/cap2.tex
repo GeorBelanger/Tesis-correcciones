@@ -1,15 +1,12 @@
 \section{Introducción}
-El aprendizaje profundo es un tipo específico de aprendizaje de máquina. Por esta razón, y, para abordar el aprendizaje profundo con más naturalidad, se explicarán los conceptos básicos de aprendizaje de máquina en este capítulo. Comenzaremos este capítulo explicando lo que es un algoritmo de aprendizaje. Después, se explicarán algunas propiedades importantes de ellos: su capacidad, sus hiperparámetros y su algoritmo de optimización. Se finalizará el capítulo hablando sobre las limitaciones que se han tenido al utilizar algoritmos de aprendizaje de máquina tradicional.
+El aprendizaje profundo es un tipo específico de aprendizaje de máquina. Por lo tanto, para abordar el aprendizaje profundo con más naturalidad, se explicarán los conceptos básicos de aprendizaje de máquina en este capítulo. Se comenzará este capítulo explicando lo que es un algoritmo de aprendizaje. Después se explicarán algunas propiedades importantes de ellos: su capacidad, sus hiperparámetros y el algoritmo de optimización más utilizado, gradiente estocástico. Se finalizará el capítulo hablando sobre las limitaciones que se han tenido al utilizar algoritmos de aprendizaje de máquina tradicional.
 
 \section{Algoritmos de aprendizaje}
 Un algoritmo de aprendizaje de máquina es un algoritmo que es capaz de aprender de datos. Pero, ¿qué quiere decir exactamente aprender? Tom Mitchell, en su libro "Machine Learning", da la siguiente definición: un programa de computadora, se dice que aprende de la experiencia $E$ con respecto a alguna clase de tareas $T$ y una medida de desempeño $P$, si su desempeño en las tareas $T$, al ser medido por $P$, mejora con la experiencia $E$. A continuación, se presentarán algunos ejemplos de tareas $T$, experiencias $E$ y medidas de desempeño $P$. \cite{Mitchell:1997:ML:541177}
 
 \subsection{La tarea, $T$}
-El aprendizaje de máquina nos permite abordar tareas que son muy difíciles de resolver con programas fijos escritos y diseñados por humanos. Desde un punto de vista científico y filosófico, el aprendizaje de máquina es interesante porque al desarrollar nuestro entendimiento sobre el aprendizaje de máquina, también desarrollamos nuestro entendimiento de los principios que son la base de la inteligencia. \cite{goodfellow-et-al-2016}
-
-\vspace{1em}
-
-En esta definición de la palabra $``$tarea$"$, el proceso de aprender no es en sí mismo la tarea. Aprender es nuestro medio de conseguir la habilidad para realizar la tarea. Por ejemplo, si queremos que un robot sea capaz de manejar, entonces manejar es la tarea. Podríamos programar al robot para que aprenda a manejar, o podríamos intentar escribir directamente un programa que especifique como manejar manualmente. \cite{goodfellow-et-al-2016} \cite{Mitchell:1997:ML:541177}
+El aprendizaje de máquina permite abordar tareas que son muy difíciles de resolver con programas fijos escritos y diseñados por humanos.
+En esta definición de la palabra $``$tarea$"$, el proceso de aprender no es en sí mismo la tarea. Aprender es nuestro medio de conseguir la habilidad para realizar la tarea. Por ejemplo, si se quiere que un robot sea capaz de manejar, entonces manejar será la tarea. Se podría programar al robot para que aprenda a manejar, o se podría intentar escribir directamente un programa que especifique como manejar manualmente. \cite{goodfellow-et-al-2016} \cite{Mitchell:1997:ML:541177}
 
 \vspace{1em}
 
@@ -18,32 +15,33 @@ Las tareas en aprendizaje de máquina se describen en términos de cómo el sist
 \vspace{1em}
 
 Muchas tareas se pueden resolver con aprendizaje de máquina. Algunas de las más comunes son las siguientes: clasificación, regresión, transcripción, traducción, detección de anomalías, síntesis y sampleado.
+\cite{goodfellow-et-al-2016}
 
 \subsection{La medida de desempeño, $P$}
-Para poder evaluar las habilidades de un algoritmo de aprendizaje de máquina, se debe diseñar una medida cuantitativa de su desempeño. Para tareas tales como clasificación y transcripción, generalmente se mide la precisión del modelo. La precisión es simplemente la proporción de ejemplos para los cuales el modelo produce el resultado correcto. También podemos, de manera equivalente, medir la tasa de error. 
+Para poder evaluar las habilidades de un algoritmo de aprendizaje de máquina, se debe diseñar una medida cuantitativa de su desempeño. Para tareas tales como clasificación y transcripción, generalmente se mide la precisión del modelo. La precisión es simplemente la proporción de ejemplos para los cuales el modelo produce el resultado correcto. También se puede, de manera equivalente, medir la tasa de error. 
 
 \vspace{1em}
 
-Usualmente, estamos interesados en observar qué tan bien el algoritmo se desempeña con datos que no ha visto antes, puesto que esto determina qué tan bien funcionará cuando sea usado en el mundo real. Por lo tanto, evaluamos estas medidas de desempeño utilizando un conjunto de prueba con datos que están separados de los datos que se utilizaron para entrenar al sistema de aprendizaje de máquina. \cite{goodfellow-et-al-2016}
+Usualmente, se busca observar qué tan bien el algoritmo se desempeña con datos que no ha visto antes, puesto que esto determina qué tan bien funcionará cuando sea usado en el mundo real. Por lo tanto, se evaluan estas medidas de desempeño utilizando un conjunto de prueba con datos que están separados de los datos que se utilizaron para entrenar al sistema de aprendizaje de máquina. \cite{goodfellow-et-al-2016}
 
 \subsection{La experiencia, $E$}
 Los algoritmos de aprendizaje de máquina pueden ser categorizados como supervisados o no supervisados de acuerdo al tipo de experiencia que se le permite tener durante el proceso de entrenamiento.
 
 \vspace{1em}
 
-En los algoritmos de aprendizaje supervisado o de predicción, se experimenta un conjunto de datos conteniendo características, pero también, a cada ejemplo se le asigna una etiqueta. Es decir, el objetivo es aprender a mapear los datos de entrada $x$ hacia las etiquetas o datos de salida $y$ partiendo de un conjunto de entrenamiento $D = \{(x_i, y_i)\}_{i=1}^N$. En este ejemplo, $D$ es el conjunto de entrenamiento y $N$ es el número de ejemplos de entrenamiento. \cite{Murphy:2012:MLP:2380985}
+En los algoritmos de aprendizaje supervisado o de predicción, se experimenta con un conjunto de datos conteniendo características, pero también, a cada ejemplo se le asigna una etiqueta. Es decir, el objetivo es aprender a mapear los datos de entrada $x$ hacia las etiquetas o datos de salida $y$ partiendo de un conjunto de entrenamiento $D = \{(x_i, y_i)\}_{i=1}^N$. En este ejemplo, $D$ es el conjunto de entrenamiento y $N$ es el número de ejemplos de entrenamiento. \cite{Murphy:2012:MLP:2380985}
 
 \vspace{1em}
 
 En los algoritmos de aprendizaje no supervisado, o de descripción, se experimenta solamente el conjunto de datos $D = \{(x_i)\}_{i=1}^N$, y el objetivo es encontrar patrones interesantes en los datos. \cite{Murphy:2012:MLP:2380985}
 
 \section{Capacidad, sobreajuste y subajuste}
-El reto principal del aprendizaje de máquina es que debe tener buen desempeño en datos de entrada nuevos que nunca se han visto, no solamente en los datos con los que entrenamos al algoritmo. La habilidad de desempeñarse bien en datos no antes vistos se llama generalización.
+El reto principal del aprendizaje de máquina es que debe tener buen desempeño en datos de entrada nuevos que nunca se hayan visto, no solamente en los datos con los que se entrenó al algoritmo. La habilidad de desempeñarse bien en datos no antes vistos se llama generalización.
 
 
 \vspace{1em}
 
-Generalmente, cuando se entrena un modelo de aprendizaje de máquina, se tiene acceso a un conjunto de entrenamiento, se puede calcular una medida de error en este conjunto, la cual se conoce con el nombre de error de entrenamiento, y se puede intentar reducir este error. Esto que se describió es simplemente un problema de optimización. Lo que separa al aprendizaje de máquina de la optimización es que se busca el error de generalización, también conocido como error de prueba, sea bajo también. \cite{goodfellow-et-al-2016}
+Generalmente, cuando se entrena un modelo de aprendizaje de máquina, se tiene acceso a un conjunto de entrenamiento y se calcula una medida de error en este conjunto, la cual se conoce con el nombre de error de entrenamiento. En una primera etapa, este error es el que se quiere reducir. Sin embargo, esto es simplemente un problema de optimización. Lo que separa al aprendizaje de máquina de la optimización es que se busca que el error de generalización, también conocido como error de prueba, sea bajo también. \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
@@ -51,7 +49,7 @@ El error de generalización se define como el valor esperado del error en un nue
 
 \vspace{1em}
 
-En la práctica, los factores que determinan que tan bien se desempeñará un algoritmo de aprendizaje de máquina dependerá de su habilidad para hacer lo siguiente:
+En la práctica, los factores que determinan qué tan bien se desempeñará un algoritmo de aprendizaje de máquina dependerá de su habilidad para hacer lo siguiente:
 
 1.- Reducir el error de entrenamiento
 
@@ -68,7 +66,7 @@ Se puede controlar si un modelo es más probable que sobreajuste o subajuste al 
 
 \vspace{1em}
 
-Una forma en que se puede controlar la capacidad de un algoritmo de aprendizaje es al escoger espacio de hipótesis, el conjunto de funciones de las que el algoritmo tiene permitido escoger como soluciones. Por ejemplo, el algoritmo de regresión lineal tiene al conjunto de todas las funciones lineales de sus datos de entrada como su espacio de hipótesis. Se puede generalizar a la regresión lineal para incluir polinomios, en vez de solo funciones lineales, en su espacio de hipótesis. Al hacer esto, se incrementa la capacidad del modelo.
+Una forma en que se puede controlar la capacidad de un algoritmo de aprendizaje es al escoger el espacio de hipótesis, es decir, el conjunto de funciones entre las que el algoritmo puede escoger como soluciones. Por ejemplo, el algoritmo de regresión lineal tiene al conjunto de todas las funciones lineales de sus datos de entrada como su espacio de hipótesis. Se puede generalizar a la regresión lineal para incluir polinomios en su espacio de hipótesis, en vez de solo funciones lineales. Al hacer esto, se incrementa la capacidad del modelo.
 
 \vspace{1em}
 
@@ -81,11 +79,11 @@ Una parte muy importante del aprendizaje de máquina es idear diferentes modelos
 
 \vspace{1em}
 
-Afortunadamente, estos resultados son válidos solo cuando promediamos sobre todas las posibles distribuciones de datos. Si hacemos supuestos sobre los tipos de distribuciones de probabilidad que encontramos en el mundo real, podemos diseñar algoritmos de aprendizaje que se tengan buen desempeño en estas distribuciones.
+Afortunadamente, estos resultados son válidos solo cuando promediamos sobre todas las posibles distribuciones de datos. Si se hacen supuestos sobre los tipos de distribuciones de probabilidad que se encuentran en el mundo real, se pueden diseñar algoritmos de aprendizaje que tengan buen desempeño en estas distribuciones.
 
 \vspace{1em}
 
-Estos significa que el objetivo del aprendizaje de máquina no es buscar un algoritmo universal de aprendizaje. El objetivo es encontrar qué tipos de distribuciones son útiles para el mundo real y qué tipo de algoritmos se desempeñan bien en datos obtenidos de distribuciones que nos interesan.
+Esto significa que el objetivo del aprendizaje de máquina no es buscar un algoritmo universal de aprendizaje. El objetivo es encontrar qué tipos de distribuciones son útiles para el mundo real y qué tipo de algoritmos se desempeñan bien en datos obtenidos de distribuciones que nos interesan.
 \cite{goodfellow-et-al-2016}
 
 \subsection{Regularización}
@@ -98,7 +96,7 @@ Por ejemplo, se puede modificar el criterio de entrenamiento de una regresión l
 
 \begin{equation}
 \begin{split}
-$$ J(w) = ECM_{entrenamiento} + \lambda w^\intercal w$$
+$$ J(w) = ECM_{\mathrm{entrenamiento}} + \lambda w^\intercal w$$
 \end{split}
 \end{equation}
 
@@ -211,6 +209,6 @@ Este concepto se expondrá con un ejemplo de (Hastie et al. 2001, p22). Supongam
 
 \vspace{1em}
 
-En otras palabras, la maldición de la dimensión es un desafío estadístico. Cuando aumentan las dimensiones de los datos de entrada, el número de posibles configuraciones en las variables aumenta exponencialmente. Por lo tanto el desafío estadístico aparece debido a que el número de posibles configuraciones es mayor que el número de ejemplos de entrenamiento.
+En otras palabras, la maldición de la dimensión es un desafío estadístico. Cuando aumentan las dimensiones de los datos de entrada, el número de posibles configuraciones en las variables aumenta exponencialmente. Por lo tanto, el desafío estadístico aparece debido a que el número de posibles configuraciones es mayor que el número de ejemplos de entrenamiento.
 \cite{goodfellow-et-al-2016}
 
