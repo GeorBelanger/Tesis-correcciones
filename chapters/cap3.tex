@@ -81,7 +81,7 @@ Un aspecto importante del diseño de una red neuronal es la elección de la func
 En la mayoría de los casos, el modelo paramétrico define una distribución $p(y|x;\theta)$ y se usa el principio de máxima verosimilitud. Esto quiere decir que la función de costo se calcula como la entropía cruzada entre los datos de entrenamiento y las predicciones del modelo. La función total de costo usada para entrenar una red neuronal generalmente combinará una de las funciones de pérdida vistas aquí con un término de regularización. \cite{goodfellow-et-al-2016}
 
 \subsubsection{Unidades de salida}
-La elección de la función de costo está altamente relacionada con la elección de la unidad de salida. La mayoría de las veces, simplemente se usa la entropía cruzada entre la distribución de los datos y la distribución del modelo. Por lo tanto, la elección de las unidades de salida determinan la forma que tendrá la función de la entropía cruzada. 
+La elección de la función de costo está altamente relacionada con la elección de la unidad de salida. La mayoría de las veces, simplemente se usa la entropía cruzada entre la distribución de los datos y la distribución del modelo. Por lo tanto, la elección de las unidades de salida determina la forma que tendrá la función de la entropía cruzada. 
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
@@ -103,11 +103,22 @@ Después, la función softmax puede exponenciar y normalizar $z$ para obtener el
 
 \begin{equation}
 \begin{split}
-$$softmax(z_i) = \frac{exp(z_i)}{\sum_j exp(z_j)}$$
+$$\mathrm{softmax}(z_i) = \frac{exp(z_i)}{\sum_j exp(z_j)}$$
 \end{split}
 \end{equation}
 
-\subsubsection{Mixture density networks}
+\subsubsubsection{Redes de densidad mixta}
+Las redes de densidad mixta son redes neuronales que utilizan otro tipo de unidad de salida: la mezcla de gaussianas. Estos modelos son muy efectivos para modelar movimientos de objetos físicos como se hará en el capítulo 5 al descibir movimientos de caligrafía. En la ecuación (3.2.4), se define una mezcla de gaussianas con $n$ componentes como una distribución de probabilidades condicionales.
+\cite{goodfellow-et-al-2016}
+
+\begin{equation}
+\begin{split}
+$$p(y|x) = \sum_{i=1}^n p(c=i|x) \mathcal{N}\left(y;\mu^{(i)}(x), \Sigma^{(i)}(x)\right)$$
+\end{split}
+\end{equation}
+
+La red neuronal debe entregar tres datos de salida: un vector que defina a $p(c=i|x)$, una matriz que entregue $\mu^{(i)}(x)$ para toda $i$, y un tensor que entregue $\Sigma^{(i)}(x)$. Por un lado, el vector $p(c=i|x)$, donde $c$ es una variable latente, generalmente se obtiene de aplicar una función softmax a un vector de $n$ componentes. Por otro lado, las medias $\mu^{(i)}(x)$ indican el centro de la $i$-ésima componente gaussiana, por lo que si $y$ es un vector de $d$ dimensiones, la red nos debe de entregar una matriz de $n\times d$ que contenga a los $n$ vectores de dimensión $d$. Finalemente, $\Sigma^{(i)}(x)$ calculará la matriz de covarianza para cada componente $i$.
+\cite{goodfellow-et-al-2016}
 
 \subsection{Unidades ocultas}
 Las unidades ocultas es un tema exclusivo de las redes neuronales, puesto que estas no aparecen en los algoritmos convencionales de aprendizaje de máquina. El diseño de las unidades ocultas es un tema de investigación muy activo y no existen todavía principios teóricos definitivos que guíen el tema.\cite{goodfellow-et-al-2016}
