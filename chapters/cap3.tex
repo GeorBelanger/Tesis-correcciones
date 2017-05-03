@@ -287,18 +287,17 @@ $$s^{(3)}=f(s^{(2)};\theta)=f(f(s^{(1)};\theta);\theta$$
 \end{split}
 \end{equation}
 
-En otras palabras, si se desdobla la ecuación al aplicar la definición, se obtiene una expresión que no involucra recurrencia. Esta expresión se puede representar por una gráfica tradicional sin ciclos como se muestra en la siguiente figura:
+En otras palabras, si se desdobla la ecuación al aplicar la definición, se obtiene una expresión que no involucra recurrencia. Esta expresión se puede representar por una gráfica tradicional sin ciclos como se muestra en la figura 3.1.
 \cite{goodfellow-et-al-2016}
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{./imag/unfold.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/unfold.png}
 \end{center}
-\caption{}
+\caption{Gráfica desdoblada de la ecuación 3.5.1. Cada nodo representa el estado en un tiempo $t$ y la función $f$ mapea el estado $t$ al estado $t+1$. Los mismos parámetros $\theta$ se utilizan para todos los pasos de tiempo. Figura tomada de (Goodfellow et al, 2016). }
 \end{figure}
 
-Cada nodo representa el estado en un tiempo $t$ y la función $f$ mapea el estado $t$ al estado $t+1$. Los mismos parámetros $\theta$ se utilizan para todos los pasos de tiempo. 
-
+ 
 \vspace{1em}
 
 Otro ejemplo sería considerar un sistema dinámico afectado por una señal externa $x^{(t)}$,
@@ -309,36 +308,32 @@ $$h^{(t)}=f(h^{(t-1)},x^{(t)};\theta)$$
 \end{split}
 \end{equation}
 
-Muchas redes neuronales recurrentes utilizan la ecuación $(3.5.3)$ para definir su estado oculto o $``$hidden state$"$ en inglés; por eso, se utilizará la letra $h$ para describir la sucesión. Una red neuronal recurrente normalmente tiene también una capa de salida que lee información del estado $h$ para hacer predicciones.
+Muchas redes neuronales recurrentes utilizan la ecuación 3.5.3 para definir su estado oculto o $``$hidden state$"$ en inglés; por eso, se utilizará la letra $h$ para describir la sucesión. Una red neuronal recurrente normalmente tiene también una capa de salida que lee información del estado $h$ para hacer predicciones.
 \cite{goodfellow-et-al-2016}
 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/unfold2.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/unfold2.png}
 \end{center}
-\caption{}
+\caption{Red neuronal recurrente sin capa de salida. Esta red incorpora información de los datos de entrada $x$ al estado $h$ a través del tiempo. El cuadrado negro en las gráficas indica el retraso en un paso de tiempo. Figura tomada de (Goodfellow et al, 2016).}
 \end{figure}
-
-En las figuras 3.1 y 3.2, tomadas de (goodfellow, 2016), se puede ver el desdoblamiento de las gráficas. La red neuronal recurrente en la figura $3.2$ incorpora información de los datos de entrada $x$ al estado $h$ a través del tiempo. El cuadrado negro en las gráficas indicará el retraso en un paso de tiempo.
-\cite{goodfellow-et-al-2016}
 
 \subsection{Redes neuronales recurrentes}
-Con los conceptos hasta ahora desarrollados, ya se pueden construír una variedad de redes neuronales. Se ejemplificará esto con el modelo básico que usará en los capítulos 4 y 5 para desarrollar los experimentos. Esta es una red neuronal que produce un dato de salida en cada paso de tiempo y tiene conexiones recurrentes entre las capas ocultas. En la figura 3.3, tomada de (Goodfellow, 2016), se muestra la gráfica computacional enrrollada y desenrrollada.
+Con los conceptos hasta ahora desarrollados, ya se pueden construír una variedad de redes neuronales. Se ejemplificará esto con el modelo básico que usará en los capítulos 4 y 5 para desarrollar los experimentos. Este modelo, mostrado en la figura 3.3, es una red neuronal que produce un dato de salida en cada paso de tiempo y tiene conexiones recurrentes entre las capas ocultas.
 \cite{goodfellow-et-al-2016}
+\cite{DBLP:journals/corr/Graves13}
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/unfold3.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/unfold3.png}
 \end{center}
-\caption{}
+\caption{Una red neuronal recurrente enrrollada y desenrrollada. Con la sucesión de datos de entrada $x$, se calculan los datos de salida $o$ y con estos y las etiquetas $y$ se puede computar la función de pérdida correspondiente $L$. También se puede ver que $U$ es la matriz de pesos de los datos de entrada a las capas ocultas, $W$ es la matriz de pesos que conecta la recurrencia de las unidades ocultas y $V$ es la matriz de pesos de las unidades ocultas a los datos de salida $o$. Figura tomada de (Goodfellow et al, 2016).}
 \end{figure}
-
-En la gráfica computacional de la figura (3.3) se puede ver lo siguiente: con la sucesión de datos de entrada $x$, se calcula los datos de salida $o$ y con estos y las etiquetas $y$ se puede computar la función de pérdida correspondiente $L$. También se puede ver que $U$ es la matriz de pesos de los datos de entrada a las capas ocultas, $W$ es la matriz de pesos que conecta la recurrencia de las unidades ocultas y $V$ es la matriz de pesos de las unidades ocultas a los datos de salida $o$.
 
 \vspace{1em}
 
-Ahora se describiran las ecuaciones de propagación hacia adelante. Se supondrá que los datos de salida son discretos, como se hará en el experimento 4, y que la función de activación es la función ReLU. Las siguientes son las ecuaciones para los pasos de tiempo $t=1$ a $t=\tau$.
+A continuación, se describirán las ecuaciones de propagación hacia adelante de este modelo. Se supondrá que los datos de salida son discretos, como se hará en el experimento 4, y que la función de activación es la función ReLU. Las siguientes son las ecuaciones para los pasos de tiempo $t=1$ a $t=\tau$.
 
 \begin{equation}
 \begin{split}
@@ -406,17 +401,19 @@ Por lo que los valores propios, $\lambda_i$ cuyo valor absoluto no sea cercano a
 Se explicará a continuación el método para resolver el problema del gradiente explosivo: recorte de gradiente. La solución para el problema del gradiente evanescente, la memoria corta de largo plazo, se explicará en la siguiente sección.
 
 \subsection{Recorte de gradiente}
-Una técnica para evitar el problema del gradiente explosivo es el recorte de gradiente. Este es un problema relevante, pues si el gradiente de un parámetro es demasiado grande, al hacer la actualización se puede acabar muy lejos del punto original y en una región donde la función objetivo tenga un valor mayor. En la figura (3.4), tomada de (Goodfellow, 2016), se da un ejemplo de las complicaciones que pueden aparecer.
+Una técnica para evitar el problema del gradiente explosivo es el recorte de gradiente. Este es un problema relevante, pues si el gradiente de un parámetro es demasiado grande, al hacer la actualización, se puede acabar muy lejos del punto original y en una región donde la función objetivo tenga un valor mayor. En la figura 3.4, tomada de (Goodfellow et al., 2016), se da un ejemplo de las complicaciones que pueden aparecer.
 \cite{goodfellow-et-al-2016}
 \cite{DBLP:journals/corr/abs-1211-5063}
 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/clipping.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/clipping.png}
 \end{center}
-\caption{}
+\caption{La función de pérdida $J(w,b)$ puede contener puntos que tengan derivadas muy grandes. Si los parámetros están cerca de estos puntos, al avanzar con descenso de gradiente, se llegará a un punto muy lejano, lo cual podría afectar a la optimización.}
 \end{figure}
+
+\vspace{1em}
 
 La solución a esto es recortar el gradiente. Es decir, elegir una cota máxima para las entradas del gradiente y, justo antes de hacer la actualización de parámetros, escalar al gradiente para que se respete la cota máxima.
 \cite{goodfellow-et-al-2016}
@@ -424,7 +421,7 @@ La solución a esto es recortar el gradiente. Es decir, elegir una cota máxima 
 \cite{DBLP:journals/corr/abs-1211-5063}
 
 \section{Memoria larga de corto plazo}
-La memoria larga de corto plazo es un tipo de unidad recurrente con $``$compuertas$"$. Estas compuertas se construyen de tal forma que los caminos de la gráfica computacional tengan derivadas que no exploten ni se desvanezcan. De esta forma se puede acumular información por un largo periodo de tiempo, y si la información ha sido usada y el sistema no la necesita más, también la puede borrar de la memoria. En la figura (3.5), tomada de (Goodfellow, 2016) se muestra la estructura de una $``$celda$"$ de memoria larga de corto plazo. Nos referiremos a estas como LSTM de ahora en adelante, por su nombre en inglés $``$long short-term memory$''$.
+La memoria larga de corto plazo es un tipo de unidad recurrente con $``$compuertas$"$. Estas compuertas se construyen de tal forma que los caminos de la gráfica computacional tengan derivadas que no exploten ni se desvanezcan. De esta forma se puede acumular información por un largo periodo de tiempo, y si la información ha sido usada y el sistema no la necesita más, también la puede borrar de la memoria. En la figura 3.5, tomada de (Goodfellow et al., 2016), se muestra la estructura de una $``$celda$"$ de memoria larga de corto plazo. Nos referiremos a estas como LSTM de ahora en adelante, por su nombre en inglés $``$long short-term memory$''$.
 \cite{Gers:2000}
 \cite{goodfellow-et-al-2016}
 \cite{Hochreiter:1997:LSM:1246443.1246450}
@@ -433,19 +430,14 @@ La memoria larga de corto plazo es un tipo de unidad recurrente con $``$compuert
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/lstm.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/lstm.png}
 \end{center}
-\caption{}
+\caption{Diagrama de la celda LSTM de la red neuronal. Estas celdas están conectadas recurrentemente entre ellas, remplazando las unidades ocultas de las redes recurrentes tradicionales. Los datos de entrada pasan por una red neuronal tradicional. Después este valor puede ser acumulado en el estado de la celda si la compuerta de entrada sigmoidal lo permite. La unidad que contiene al estado de la celda tiene un estado recurrente a sí misma, cuyo peso es controlado por la compuerta de olvido. Las datos de salida de la celda pueden ser $``$apagados$"$ por la compuerta de salida. Todas las unidades de compuerta tienen una función de activación no lineal y usualmente sigmoidal. Figura tomada de (Goodfellow et al. 2016). }
 \end{figure}
-
-Estas celdas están conectadas recurrentemente entre ellas, remplazando las unidades ocultas de las redes recurrentes tradicionales. Se describirán las interacciones que están sucediendo en la figura. En primer lugar, los datos de entrada pasan por una red neuronal tradicional. Después este valor puede ser acumulado en el estado de la celda si la compuerta de entrada sigmoidal lo permite. La unidad que contiene al estado de la celda tiene un estado recurrente a sí misma, cuyo peso es controlado por la compuerta de olvido. Las datos de salida de la celda pueden ser $``$apagados$"$ por la compuerta de salida. Todas las unidades de compuerta tienen una función de activación no lineal y usualmente sigmoidal. Sin embargo, en esta investigación, siguiendo el trabajo de (Graves, 2013), se usará la función $tanh$ como función de activación para la entrada y salida de datos de la celda LSTM como se mostrará en breve.
-\cite{goodfellow-et-al-2016}
-\cite{DBLP:journals/corr/Graves13}
-\cite{DBLP:journals/corr/SakSB14}
 
 \vspace{1em}
 
-A continuación se presentará este modelo en concreto al mostrar las ecuaciones de propagación hacia adelante para la red neuronal recurrente LSTM con una capa oculta. El componente principal de una celda LSTM es el estado de la celda $s_i^{(t)}$, el cual tiene una conexión recurrente a sí mismo que es controlado por la compuerta de olvido $f_i^{(t)}$ cuyo valor se modula entre 0 y 1 por una unidad sigmoidal. Por lo tanto si $x^{(t)}$ es el vector de datos de entrada actual, $h^{(t)}$ es el vector de la capa oculta actual que contiene los datos de salida de las celdas LSTM, y $b^f$, $U^f$ y $W^f$ son los sesgos, pesos de entrada y pesos recurrentes para la compuerta de olvido respectivamente, entonces:
+A continuación se presentarán las ecuaciones de propagación hacia adelante para la red neuronal recurrente LSTM con una capa oculta. El componente principal de una celda LSTM es el estado de la celda $s_i^{(t)}$, el cual tiene una conexión recurrente a sí mismo que es controlado por la compuerta de olvido $f_i^{(t)}$ cuyo valor se modula entre 0 y 1 por una unidad sigmoidal. Por lo tanto si $x^{(t)}$ es el vector de datos de entrada actual, $h^{(t)}$ es el vector de la capa oculta actual que contiene los datos de salida de las celdas LSTM, y $b^f$, $U^f$ y $W^f$ son los sesgos, pesos de entrada y pesos recurrentes para la compuerta de olvido respectivamente, entonces:
 \cite{goodfellow-et-al-2016}
 \cite{DBLP:journals/corr/Graves13}
 \cite{DBLP:journals/corr/SakSB14}

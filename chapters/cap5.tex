@@ -15,14 +15,14 @@ En el siguiente capítulo, se comenzará por dar más detalles sobre la base de 
 
 
 \section{Descripción de la base de datos}
-La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700. En la figura 5.1, tomada de (Graves, 2013) se puede ver una muestra de los datos
+La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700.
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/iam.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/iam.png}
 \end{center}
-\caption{}
+\caption{Muestra de la base de datos IAM. Figura tomada de (Graves, 2013) }
 \end{figure}
 
 \section{Descripción del modelo}
@@ -122,14 +122,14 @@ Por lo tanto, si se utiliza la función de pérdida logarítmica, al sustituir l
 
 \vspace{1em}
 
-En la figura 5.2, se puede ver la operación de la capa de densidad mixta aplicada a una predicción de caligrafía al escribir a palabra $``$itam$"$. Aquí se puede ver que hay dos tipos de predicción en el modelo: las pequeñas burbujas que denotan los trazos que se hacen al escribir las letras, y unas burbujas más grandes que son las predicciones al terminar un trazo y para comenzar el siguiente. Las predicciones al final de los trazos tienen una varianza más alta porque la posición de la pluma no fue registrada cuando estuvo despegada del pizarrón y, por lo tanto, puede haber una distancia más grande entre el final de un trazo y el siguiente.
+En la figura 5.2, se puede ver que hay dos tipos de predicción en la capa de densidad mixta: las pequeñas burbujas que denotan los trazos que se hacen al escribir las letras, y unas burbujas más grandes que son las predicciones al terminar un trazo y para comenzar el siguiente. Las predicciones al final de los trazos tienen una varianza más alta porque la posición de la pluma no fue registrada cuando estuvo despegada del pizarrón y, por lo tanto, puede haber una distancia más grande entre el final de un trazo y el siguiente.
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/mdn.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/mdn.png}
 \end{center}
-\caption{}
+\caption{La operación de la capa de densidad mixta aplicada a una predicción de caligrafía al escribir a palabra $``$itam$"$.}
 \end{figure}
 
 \vspace{1em}
@@ -201,14 +201,13 @@ El modelo utilizó 3 capas ocultas con 200 unidades LSTM en cada una, los batche
 
 \vspace{1em}
 
- En la figura 5.3, se puede ver generación de caligrafía condicionada en la frase: $``$Por un México más libre$"$ después de la iteración 4700 del algoritmo. En esta primera prueba, solo se generaron los primeros 6 caracteres de las sucesiones, contando al espacio.
-
-
+ El algoritmo convergió después de 13,000 iteraciones. A continuación, se mostrarán algunos resultados. En las figuras 5.3 y 5.4 se mostrarán algunos resultados al generar la caligrafía condicionada en la frase $``$solo hay un itam$"$.
+ 
 \begin{figure}[h]
 \begin{center}
 \includegraphics{./imag/porunmexico4700.png}
 \end{center}
-\caption{}
+\caption{Generación de caligrafía de nuestro modelo condicionado en la frase}
 \end{figure}
 
 Se puede ver que el algoritmo ya comienza a aprender a escribir las letras. En la figura 5.4, se puede ver la operación de la capa de densidad mixta aplicada a este ejemplo.
@@ -217,7 +216,7 @@ Se puede ver que el algoritmo ya comienza a aprender a escribir las letras. En l
 \begin{center}
 \includegraphics{./imag/porunmexico4700g.png}
 \end{center}
-\caption{}
+\caption{Operación de la capa de densidad mixta al generar caligrafía condicionada en la frase $``$solo hay un itam$"$}
 \end{figure}
 
 Se intentaron construir sucesiones más largas. En la figura 5.5, se puede ver la generación de caligrafía basada en la frase $``$solo hay un itam$"$ que se produjo en la iteración 7,500. Se puede ver que la primera parte de la frase la escribe sin problemas pero después de escribir "un", parece que pierde un poco el rumbo. La alineación entre el texto que se quiere escribir y la caligrafía, manejada por el mecanismo de atención, todavía tiene algunas fallas
@@ -253,7 +252,7 @@ Para la iteración 10,000, el modelo ya ha aprendido a seguir las letras utiliza
 
 Para completar el lema del ITAM, en la figura 5.8, se puede ver la generación del texto $``$más justo y más próspero$"$. Aquí el algoritmo tiene problemas para escribir las $``$s$"$, y al final de $``$próspero$"$, todavía quedan trazos por hacer, por lo que aparece una $``$n$"$ $``$no invitada$"$ al final.
 
-\begin{figure}[htbp]
+\begin{figure}[b]
 \begin{center}
 \includegraphics{./imag/justo10000.png}
 \end{center}
