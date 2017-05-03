@@ -5,7 +5,7 @@ En este capítulo, se entrenarán modelos de texto utilizando redes neuronales r
 
 \vspace{1em}
 
-Se utilizarán 3 bases de texto diferentes y se compararán los resultados obtenidos. El primer texto que se utilizará será el libro Rayuela de Julio Cortazar, el segundo, será La Biblia en inglés y por último se utilizará datos para generar muestras de Wikipedia.
+Se utilizarán 3 bases de texto diferentes y se compararán los resultados obtenidos. El primer texto que se utilizará será el libro $``$Rayuela$"$ de Julio Cortazar, el segundo, será $``$La Biblia$"$ en inglés y, por último, se utilizará la base de datos del concurso Hutter.
 
 \vspace{1em}
 
@@ -14,7 +14,7 @@ Aunque generalmente los modelos de lenguaje se hacen a nivel palabra, en este tr
 
 \section{Descripción de las bases de datos}
 
-A continuación se describirá cada base de datos y los modelos que se utilizarón para cada análisis. Los bases de datos y los modelos utilizados se pueden encontrar en el siguiente repositorio: https://github.com/GeorBelanger
+A continuación, se describirá cada base de datos y los modelos que se utilizaron para cada análisis. El código del modelo utilizado se pueden encontrar en el siguiente repositorio: https://github.com/GeorBelanger
 
 \subsection{Rayuela}
 Este libro de Julio Cortazar escrito en París y publicado en 1963 es una de las obras centrales del boom latinoamericano. En ella, Cortazar invita al lector a leer sus 155 capitulos en el orden que desee, por lo que se le suele llamar una $``$antinovela$"$ y esto hace que tenga una estructura interesante para generar nuevas sucesiones de ella.
@@ -28,7 +28,7 @@ La Biblia es uno de los libros más leídos y más famosos de la historia. Este 
 \cite{nltk}
 
 \subsection{Concurso Hutter}
-Finalmente, siguiendo el trabajo de (Graves, 2013), se considero el conjunto de datos del concurso $``$Hutter$"$. Esta base de datos contiene los primeros 100 millones de bytes de la página de Wikipedia en inglés. El archivo no solo incluye los datos comprimidos sino también el código para implementar el algoritmo de compresión. Además de contener muchas palabras del diccionario, la base de datos contiene muchas sucesiones de caracteres que normalmente no se usarían como por ejemplo etiquetas XML para definir los meta-datos, direcciones de páginas de internet y markup para formatear los datos (encabezados, listas, etc.). Esta base de datos contiene 82,551,973 caracteres y los conjuntos de validación y prueba tienen cada uno 1,000,000 de caracteres.
+Finalmente, siguiendo el trabajo de (Graves, 2013), se consideró el conjunto de datos del concurso $``$Hutter$"$. Esta base de datos contiene los primeros 100 millones de bytes de la página de Wikipedia en inglés. El archivo no solo incluye los datos comprimidos sino también el código para implementar el algoritmo de compresión. Además de contener muchas palabras del diccionario, la base de datos contiene muchas sucesiones de caracteres que normalmente no se usarían como por ejemplo etiquetas XML para definir los meta-datos, direcciones de páginas de internet y markup para formatear los datos (encabezados, listas, etc.). Esta base de datos contiene 82,551,973 caracteres y los conjuntos de validación y prueba tienen cada uno 1,000,000 de caracteres.
 \cite{DBLP:journals/corr/Graves13}
 
 
@@ -40,24 +40,26 @@ Para esta base de datos se utilizó una red neuronal recurrente con unidades LST
 
 \vspace{1em}
 
-En primer lugar se corrió una red neuronal con 1 capa oculta con 100 unidades LSTM. Después de cada época, es decir, cada corrida de entrenamiento por todos los datos, se evaluó el error de validación y se generaron sucesiones de 500 caracteres de longitud. En la figura 4.1 se pueden ver las primeras dos épocas. En las generaciones de texto, se puede ver que en la primera época el modelo empieza a aprender a separar las palabras con espacios de tal forma que tengan una dimensión razonable (2-8 caracteres). Después de la segunda época se puede ver que el modelo ya ha aprendido algunas palabras básicas del español: como, sobren, de, la, cosa, pan, etc. Todavía está un poco lejos el modelo generar sucesiones en español. 
+En primer lugar se corrió una red neuronal con 1 capa oculta con 100 unidades LSTM. Después de cada época, es decir, cada corrida de entrenamiento por todos los datos, se evaluó el error de validación y se generaron sucesiones de texto. En el siguiente cuadro, se puede ver una sucesión generada después de la primera época.
+\vspace{1em}
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics{./imag/ray11.png}
-\end{center}
-\caption{}
-\end{figure}
+\fbox{\begin{minipage}{35em}
+corirdos endo sabisano Olivial Traveciel toster el que escialtas cuel pmen querlan y hara dera que puasonuaco etion comures conivier de Maro el mesa Oseves sestretedaran Mibutra entobso, Cocaba quirdammotercimio Maburado la a la que cicos, y en me nastolajor de laua trecos tonterderos mo boco la de preintes la de mabar Al esteros al tinimedo, omrimherica..rud la tinopo Bera los untatra en su la odas tuca aque pronterio ya palolre cuenes munonot. Manos anavoste pan, del de flo el no demanbia.
+\end{minipage}}
 
+\vspace{1em}
 
-En la figura 4.2, se puede ver el mismo modelo en las últimas dos iteraciones y la evaluación del error de prueba. El modelo ahora ya genera palabras más complejas en español y se puede ver que incluso ha aprendido el nombre del personaje principal de la obra: Oliveira. No obstante, el modelo sigue lejos del desempeño esperado. Se puede ver que el error de prueba fue menor que el error de validación, por lo que no se está sobreajustando. Se intentará utilizar modelos con más parámetros para mejorar el desempeño.
+En la sucesión de texto, se puede ver que el modelo ya ha aprendido algunas palabras básicas del español: el, que, mesa, pan, etc. Aunque todavía está un poco lejos el modelo generar sucesiones en español. A continuación se muestra una sucesión generada después de 20 épocas, cuando el modelo ya ha convergido.
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics{./imag/ray12.png}
-\end{center}
-\caption{}
-\end{figure}
+\vspace{1em}
+
+\fbox{\begin{minipage}{35em}
+tiener Tido, coma, de lo voviid de que todo al meo. Yutropir la agumo, de todo al contundada. Soimente taleca caguas, aliver, armanlo atacasiora gente de piar el lanicaba esos caticado a fractores como Subera de tantos parto a creer. Nerlineras aquedalso temparrondo dos amobano esfunta a viejo. Oliveira de trenta a y es mi hiciente, protafe en el napecio. Meros gusiado como si me retorama, con timiizas. Puadero tan lado y por perregitas del mitio. Travoro es fuentas nada la contra en la co
+\end{minipage}}
+
+\vspace{1em}
+
+En esta sucesión, el modelo ya genera palabras más complejas en español y se puede ver que incluso ha aprendido el nombre del personaje principal de la obra: Oliveira. No obstante, el modelo sigue lejos del desempeño esperado. El error de prueba fue menor que el error de validación, por lo que no se está sobreajustando. Se intentará utilizar modelos con más parámetros para mejorar el desempeño.
 
 \vspace{1em}
 
@@ -65,7 +67,8 @@ Para mejorar la calidad de las sucesiones, se aumentó la capacidad del modelo y
 
 \vspace{1em}
 
-$``$A Pola como un estecho una salia esos fodido de cosas un dido... A nadie que a los caleungo de Oliveira. A oble Mont reputados que mi cientos dijo Tenrico de que vez. Mane, un estobadon, la busto estus fudente. Hecidos ejemposo dijo Talita y ventan En sido nos parata -laguo opirosa. Un que rearder. Remuodo esperana como Mato de tilonis, que fuera realmente Arren con gris, y asmiento el piersko quina si Se la mas hucha hasta los acorrino un bubio. Es salibles en pasa$"$
+\fbox{\begin{minipage}{35em}A Pola como un estecho una salia esos fodido de cosas un dido... A nadie que a los caleungo de Oliveira. A oble Mont reputados que mi cientos dijo Tenrico de que vez. Mane, un estobadon, la busto estus fudente. Hecidos ejemposo dijo Talita y ventan En sido nos parata -laguo opirosa. Un que rearder. Remuodo esperana como Mato de tilonis, que fuera realmente Arren con gris, y asmiento el piersko quina si Se la mas hucha hasta los acorrino un bubio. Es salibles en pasa
+\end{minipage}}
 
 \vspace{1em}
 
@@ -81,7 +84,9 @@ Esta base de datos es bastante más grande que la de Rayuela, por lo que el tiem
 
 \vspace{1em}
 
-$``$Sheb, of kings your childres. The midst that and thou fall they say a rain stangues, with thou and seadwe, that that he for the leses, I mave knet and is somongel; unto him, besought this shoot. And the inholire she blood savids ye also tendenshaln my fompest; and the tritiel merle who einssyres as all usterly not which all man out over, even the word givity at he be it awonk whom even out whous him$"$
+\fbox{\begin{minipage}{35em}
+Sheb, of kings your childres. The midst that and thou fall they say a rain stangues, with thou and seadwe, that that he for the leses, I mave knet and is somongel; unto him, besought this shoot. And the inholire she blood savids ye also tendenshaln my fompest; and the tritiel merle who einssyres as all usterly not which all man out over, even the word givity at he be it awonk whom even out whous him
+\end{minipage}}
 
 \vspace{1em}
 
@@ -93,15 +98,16 @@ El modelo con 1 capa oculta y 500 unidades LSTM convergió en 6 épocas y entreg
 
 \vspace{1em}
 
-$``$But Jeah said ut into the LORD God and these day of thine of that dwelt my God because of the priests swalling is also not gate of thiel, have spirit if us weed, but with them put her's lasting, and their judgest covered their tarrim to them, and please God which connembrory. But the first before him, and in my servant and sinate;$"$
+\fbox{\begin{minipage}{35em}
+But Jeah said ut into the LORD God and these day of thine of that dwelt my God because of the priests swalling is also not gate of thiel, have spirit if us weed, but with them put her's lasting, and their judgest covered their tarrim to them, and please God which connembrory. But the first before him, and in my servant and sinate;
+\end{minipage}}
+
 
 \vspace{1em}
 
 Este modelo ya escribe inglés bastante bien y algunas partes de las frases empiezan a tener sentido. La tabla 4.1 contiene los tiempos de entrenamiento y los errores de validación para cada época. Se puede ver que el valor de validación desciende hasta la sexta época y después empieza a aumentar. Debido a que se está utilizando detención temprana, el modelo de que se tenía en ese momento es con el que se evalua el error de prueba.
 
 \vspace{1em}
-
-
 
 \begin{table}[htbp]
 \begin{center}
@@ -168,13 +174,16 @@ even them fear in Ghist have my people had we shall see the mess
 \end{center}
 \end{table}
 
+\vspace{1em}
 
 Se obtendran más sucesiones de este modelo al hacer variar la temperatura de la softmax de salida. La temperatura es simplemente un número por el que se divide el vector de salida antes de aplicarle la función softmax. Por lo tanto, al disminuir la temperatura de 1 a 0.1, aumenta la confianza de las predicciones de la red, pero también será más conservadora. A continuación se muestra una muestra utilizando 0.1 como temperatura.
 \cite{unreasonable}
 
 \vspace{1em}
 
-$``$uhus thine sin to the servone of the son of King is shall the morning and the same of the son of King and the son of Assyria the son of King is shall the servont to the same the same that said unto them, The LORD shalt the same the same of the same the same the same that he said unto them, The LORD said unto them, $"$
+\fbox{\begin{minipage}{35em}
+uhus thine sin to the servone of the son of King is shall the morning and the same of the son of King and the son of Assyria the son of King is shall the servont to the same the same that said unto them, The LORD shalt the same the same of the same the same the same that he said unto them, The LORD said unto them,
+\end{minipage}}
 
 \vspace{1em}
 
@@ -182,7 +191,9 @@ Se puede ver que como el modelo es más conservador, entrega sucesiones que son 
 
 \vspace{1em}
 
- $``$And in the house of the LORD in the corner in the mercy of the stones and the children of Israel the prophesy and how will seek a litter is sin. And the mighty of it is a standed me with the things the first the wicked in the sons of Saul the play of the word of the son of Kanah, and at the singer of the morning that have in the word of the LORD and the word of the LORD and the standing of the LORD, and went in the people came out of God.$"$
+\fbox{\begin{minipage}{35em}
+And in the house of the LORD in the corner in the mercy of the stones and the children of Israel the prophesy and how will seek a litter is sin. And the mighty of it is a standed me with the things the first the wicked in the sons of Saul the play of the word of the son of Kanah, and at the singer of the morning that have in the word of the LORD and the word of the LORD and the standing of the LORD, and went in the people came out of God.
+\end{minipage}}
  
 \vspace{1em}
 
@@ -276,11 +287,9 @@ Gallamorboniauist on the did not combinative name ones and physically early \\ \
 \end{center}
 \end{table}
 
-Al examinar las sucesiones de la tabla 4.5, se puede ver que el modelo no solo ha aprendido palabras en inglés, sino que también las estructuras de sus frases empiezan a tener sentido y ha aprendido a abrir y cerrar brackets así como otros símbolos como el hashtag # y hacer \&quot. En la tabla 4.6, se analizarán algunas sucesiones al modificar la temperatura a 0.5.
-
 \vspace{1em}
 
-
+Al examinar las sucesiones de la tabla 4.5, se puede ver que el modelo no solo ha aprendido palabras en inglés, sino que también las estructuras de sus frases empiezan a tener sentido y ha aprendido a abrir y cerrar brackets así como otros símbolos como el hashtag # y hacer \&quot. En la tabla 4.6, se analizarán algunas sucesiones al modificar la temperatura a 0.5.
 
 
 \begin{table}[htbp]
