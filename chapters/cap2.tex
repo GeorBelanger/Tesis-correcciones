@@ -10,7 +10,7 @@ En esta definición de la palabra $``$tarea$"$, el proceso de aprender no es en 
 
 \vspace{1em}
 
-Las tareas en aprendizaje de máquina se describen en términos de cómo el sistema de aprendizaje de máquina debería procesar un ejemplo. Un ejemplo es una colección de características que han sido cuantitativamente medidas de un objeto o evento que queremos que el sistema procese. Generalmente representamos un ejemplo como un vector $x \in R^n$ donde cada entrada $x_i$ del vector es otra característica. Por ejemplo, las características de una imagen son generalmente los valores de los pixeles de la imagen. \cite{goodfellow-et-al-2016}
+Las tareas en aprendizaje de máquina se describen en términos de cómo el sistema de aprendizaje de máquina debería procesar un ejemplo. Un ejemplo es una colección de características que han sido cuantitativamente medidas de un objeto o evento que queremos que el sistema procese. Generalmente representamos un ejemplo como un vector $x \in R^n$ donde cada entrada $x_i$ del vector es otra característica. Por ejemplo, las características de una imagen son generalmente los valores de los pixeles de la imagen. En el ejemplo de programar a un robot para que aprenda a manejar, las características serían los valores de los pixeles de todas las imágenes del video. \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
@@ -18,7 +18,7 @@ Muchas tareas se pueden resolver con aprendizaje de máquina. Algunas de las má
 \cite{goodfellow-et-al-2016}
 
 \subsection{La medida de desempeño, $P$}
-Para poder evaluar las habilidades de un algoritmo de aprendizaje de máquina, se debe diseñar una medida cuantitativa de su desempeño. Para tareas tales como clasificación y transcripción, generalmente se mide la precisión del modelo. La precisión es simplemente la proporción de ejemplos para los cuales el modelo produce el resultado correcto. También se puede, de manera equivalente, medir la tasa de error. 
+Para poder evaluar las habilidades de un algoritmo de aprendizaje de máquina, se debe diseñar una medida cuantitativa de su desempeño. Para tareas tales como clasificación y transcripción, generalmente se mide la precisión del modelo. La precisión es simplemente la proporción de ejemplos para los cuales el modelo produce el resultado correcto. También se puede, de manera equivalente, medir la tasa de error. En el ejemplo del robot manejando, la medida de desempeño podría ser el porcentaje de decisiones que llevan a un accidente.
 
 \vspace{1em}
 
@@ -33,7 +33,7 @@ En los algoritmos de aprendizaje supervisado o de predicción, se experimenta co
 
 \vspace{1em}
 
-En los algoritmos de aprendizaje no supervisado, o de descripción, se experimenta solamente el conjunto de datos $D = \{(x_i)\}_{i=1}^N$, y el objetivo es encontrar patrones interesantes en los datos. \cite{Murphy:2012:MLP:2380985}
+En los algoritmos de aprendizaje no supervisado, o de descripción, se experimenta solamente el conjunto de datos $D = \{(x_i)\}_{i=1}^N$, y el objetivo es encontrar patrones interesantes en los datos. Por lo que regresando al ejemplo del robot que maneja, la experiencia son las imágenes que el robot recibe y, si es aprendizaje supervisado, las etiquetas podrían ser la decisión que debería tomar el robot en ese momento: frenar, acelerar, girar a la derecha, etc. \cite{Murphy:2012:MLP:2380985}
 
 \section{Capacidad, sobreajuste y subajuste}
 El reto principal del aprendizaje de máquina es que debe tener buen desempeño en datos de entrada nuevos que nunca se hayan visto, no solamente en los datos con los que se entrenó al algoritmo. La habilidad de desempeñarse bien en datos no antes vistos se llama generalización.
@@ -125,16 +125,6 @@ En específico, se divide al conjunto de entrenamiento en dos subconjuntos disju
 \cite{goodfellow-et-al-2016}
 \cite{hastie01statisticallearning}
 
-\subsection{Validación cruzada}
-Dividir al conjunto de datos disponible en un conjunto fijo de entrenamiento y un conjunto fijo de prueba puede ser problemático si el conjunto de prueba resulta ser demasiado pequeño. Un conjunto de prueba pequeño implica incertidumbre en el error de prueba estimado. Esta incertidumbre hace que sea difícil afirmar si un algoritmo es mejor que otro. 
-
-\vspace{1em}
-
-Existen métodos para resolver este problema que se basan en la idea de repetir el cálculo de entrenamiento y de prueba en subconjuntos aleatorios del conjunto de datos original. El más popular de estos es validación cruzada de $k$ iteraciones. En este método, se divide al conjunto de datos en $k$ subconjuntos disjuntos. De esta manera, el error de prueba puede ser estimado al tomar el promedio de los errores de prueba de las $k$ iteraciones. En la iteración $i$, el $i$-ésimo subconjunto de los datos es usado como el conjunto de prueba y el resto de los datos como conjunto de entrenamiento.
-\cite{goodfellow-et-al-2016}
-\cite{hastie01statisticallearning}
-
-
 \section{Algoritmo de gradiente estocástico}
 En aprendizaje de máquina, uno de los aspectos más importantes del algoritmo es el método de optimización que se utiliza. El algoritmo de optimización que más se emplea en aprendizaje profundo es el algoritmo de gradiente estocástico y este es una extensión del algoritmo de descenso de gradiente. 
 
@@ -149,7 +139,7 @@ Sin embargo, con gradiente estocástico, se busca que el costo computacional no 
 
 \begin{equation}
 \begin{split}
-$$J(\theta) = \frac{1}{m}\sum_{1}^{m}L(x^{(i)},y^{(i)},\theta)$$
+$$J(\theta) = \frac{1}{m}\sum_{i=1}^{m}L(x^{(i)},y^{(i)},\theta)$$
 \end{split}
 \end{equation}
 

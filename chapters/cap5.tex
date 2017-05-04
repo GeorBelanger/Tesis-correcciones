@@ -201,82 +201,80 @@ El modelo utilizó 3 capas ocultas con 200 unidades LSTM en cada una, los batche
 
 \vspace{1em}
 
- El algoritmo convergió después de 13,000 iteraciones. A continuación, se mostrarán algunos resultados. En las figuras 5.3 y 5.4 se mostrarán algunos resultados al generar la caligrafía condicionada en la frase $``$solo hay un itam$"$.
+ El algoritmo convergió después de 13,000 iteraciones. En las figuras 5.3 y 5.4 se pueden ver algunos resultados al generar la caligrafía condicionada en la frase $``$solo hay un itam$"$.
  
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/porunmexico4700.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/solohay1.png}
 \end{center}
-\caption{Generación de caligrafía de nuestro modelo condicionado en la frase}
+\caption{Generación de caligrafía de nuestro modelo condicionado con respecto a la frase $``$solo hay un itam$"$}
 \end{figure}
-
-Se puede ver que el algoritmo ya comienza a aprender a escribir las letras. En la figura 5.4, se puede ver la operación de la capa de densidad mixta aplicada a este ejemplo.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/porunmexico4700g.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/solohay2.png}
 \end{center}
-\caption{Operación de la capa de densidad mixta al generar caligrafía condicionada en la frase $``$solo hay un itam$"$}
+\caption{Operación de la capa de densidad mixta al generar caligrafía condicionada con respecto a la frase $``$solo hay un itam$"$}
 \end{figure}
 
-Se intentaron construir sucesiones más largas. En la figura 5.5, se puede ver la generación de caligrafía basada en la frase $``$solo hay un itam$"$ que se produjo en la iteración 7,500. Se puede ver que la primera parte de la frase la escribe sin problemas pero después de escribir "un", parece que pierde un poco el rumbo. La alineación entre el texto que se quiere escribir y la caligrafía, manejada por el mecanismo de atención, todavía tiene algunas fallas
+ En la figura 5.5, se puede ver la generación de caligrafía basada en la frase $``$i love deep learning$"$. Se puede ver que en última parte de la frase, hay demasiado espacio entre las letras. Esto se debe a que el mecanismo de atención todavía tiene a veces problemas para alinear la caligrafía con el texto que se quiere generar. 
 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/solo7500.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/ilove.png}
 \end{center}
-\caption{}
+\caption{Generación de caligrafía de nuestro modelo condicionado con respecto a la frase $``$i love deep learning$"$.}
 \end{figure}
 
 \vspace{1em}
 
-En la figura 5.6, se puede ver la generación de caligrafía basada en la frase $``$contribuir a la formación integral $"$ que se produjo en la iteración 8,700. Se puede ver que ya escribe bastante bien y el mecanismo de atención funciona en general, aunque en algunos lugares falla, como en la doble $``$b$"$ que se ve en la figura 5.6. Esto se debe probablemente el mecanismo de atención estuvo demasiados pasos de tiempo $``$dibujando$"$ a $``$b$"$ y entonces la dibujó dos veces. 
+A continuación, se entrenará un modelo más compacto por más tiempo y se compararán los resultados. La arquitectura de este segundo modelo utilizó solamente 2 capas ocultas más el mecanismo de atención presentado. Además, cada capa oculta contó con 100 unidades LSTM, las capa de salida utilizó 4 gaussianas y el mecanismo de atención 2 gaussianas. Este modelo se entrenó por 60,000 épocas. En la figura 5.6, se puede ver la primera generación de caligrafía de este modelo condicionada en la frase $``$Por un México más libre$"$.
 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/contribuir8700.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/por_un_mx_0.png}
 \end{center}
-\caption{}
+\caption{Generación de caligrafía de nuestro modelo condicionado con respecto a la frase $``$Por un México más libre$"$}
 \end{figure}
 
-Para la iteración 10,000, el modelo ya ha aprendido a seguir las letras utilizando el mecanismo de atención, aunque todavía hay algunas letras que tienen algunos problemas. Por ejemplo, en la figura 5.7, se ve la escritura de $``$Por un México más libre$"$. Se puede ver que el error más grande fue que el algoritmo no produjo la $``$x$"$ de México. Esto se debe probablemente a que como la $``$x$"$ es una letra poco común, el mecanismo de atención no ha tenido suficientes ejemplos para aprender a hacerla.
+\vspace{1em}
 
-\begin{figure}[htbp]
+De igual forma que se hizo en el capítulo 4, en este modelo también podemos hacer que el modelo entregue elementos más probables de $P(x|c)$ para que las sucesiones sean más estables. Para hacer esto, se sesgará el sampleado hacia predicciones más probables en cada paso. Si $b$ es el sesgo de probabilidad, un real mayor o igual a cero, antes de samplear de $Pr(x_{t+1}|y_t)$, cada desviación estandar $\sigma_t^j$ en la mezcla gaussiana de la ecuación 5.3.6, se puede recalcular de la siguiente manera:
+\cite{DBLP:journals/corr/Graves13}
+
+\begin{equation}
+\begin{split}
+$$\sigma_t^j = \mathrm{exp}\left(\hat{\sigma}_t^j-b\right)$$
+\end{split}
+\end{equation}
+
+Y los pesos de la mezcla se pueden recalcular de la ecuación 5.3.5 de la siguiente manera:
+
+\begin{equation}
+\begin{split}
+$$\pi_t^j = \frac{\mathrm{exp}(\hat{\pi}_t^j(1+b))}{\sum_{j'=1}^M \mathrm{exp}(\hat{\pi}_t^{j'}(1+b)) }$$
+\end{split}
+\end{equation}
+
+Esto reduce artificialmente la varianza tanto en la elección del componente de mezcla como en la distribución del componente. Cuando $b=0$ se obtiene un sampleado insesgado y, conforme $b$ tiende a infinito, la varianza en el sampleado desaparece. En las figuras 5.7 y 5.8, se puede ver la generación de sucesiones sesgadas basadas en la frase $``$Por un Mexico más libre, más justo y más próspero$"$. 
+
+\begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/por_un_10000.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/por_un_mx.png}
 \end{center}
-\caption{}
+\caption{Generación de caligrafía de nuestro modelo condicionado con respecto a la frase $``$Por un México más libre$"$}
 \end{figure}
 
-Para completar el lema del ITAM, en la figura 5.8, se puede ver la generación del texto $``$más justo y más próspero$"$. Aquí el algoritmo tiene problemas para escribir las $``$s$"$, y al final de $``$próspero$"$, todavía quedan trazos por hacer, por lo que aparece una $``$n$"$ $``$no invitada$"$ al final.
-
-\begin{figure}[b]
+\begin{figure}[h]
 \begin{center}
-\includegraphics{./imag/justo10000.png}
+\includegraphics[width=150mm, scale = 0.8]{./imag/mas_justo.png}
 \end{center}
-\caption{}
+\caption{Generación de caligrafía de nuestro modelo condicionado con respecto a la frase $``$más justo y más próspero$"$}
 \end{figure}
 
-\vspace{3em}
-
-Por último, en las figuras 5.9 y 5.10, se puede ver la generación del texto $``$solo hay un itam$"$. El algoritmo escribe bastante bien esta frase. Ha aprendido a escribir las letras y seguir de manera adecuada al mecanismo de atención.  La única falla que tuvo es que tal vez falta un poco de espacio entre la palabra $``$un$"$ y la palabra $``$itam$"$.
-
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics{./imag/solo4.png}
-\end{center}
-\caption{}
-\end{figure}
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics{./imag/solo5.png}
-\end{center}
-\caption{}
-\end{figure}
-
-\vspace{3em}
+\vspace{1em}
 
 Los resultados aquí expuestos muestran el poder que tienen los modelos explicados para generar sucesiones complejas de dependencias de largo plazo. La calidad de la escritura todavía podría mejorar si como (Graves, 2013) se utilizara un modelo más grande y se entrenara por más tiempo. Sin embargo, no se cuenta con la capacidad computacional necesaria y para este trabajo bastará mostrar el potencial que tienen los modelos.
 \cite{DBLP:journals/corr/Graves13}
