@@ -1,5 +1,5 @@
 \section{Introducción}
-La mayoría de los modelos de aprendizaje de máquina tienen una arquitecura simple de dos capas. Sin embargo, al analizar el cerebro humano, se puede ver que este tiene muchos niveles de procesamiento. Se cree que cada capa aprende características o representaciones con niveles crecientes de abstracción. Por ejemplo, el modelo estándar del cortex humano sugiere que el cerebro primero extrae bordes, después pequeñas áreas, después superficies, después objetos, etc. Esta observación ha inspirado a un area del aprendizaje de máquina conocida como aprendizaje profundo que intenta replicar este tipo de arquitectura en una computadora.
+La mayoría de los modelos de aprendizaje de máquina tienen una arquitectura simple de dos capas. Sin embargo, al analizar el cerebro humano, se puede ver que este tiene muchos niveles de procesamiento. Se cree que cada capa aprende características o representaciones con niveles crecientes de abstracción. Por ejemplo, el modelo estándar del córtex humano sugiere que el cerebro primero extrae bordes, después pequeñas áreas, después superficies, después objetos, etc. Esta observación ha inspirado a un área del aprendizaje de máquina conocida como aprendizaje profundo que intenta replicar este tipo de arquitectura en una computadora.
 \cite{Murphy:2012:MLP:2380985}
 
 \vspace{1em}
@@ -14,14 +14,14 @@ El cerebro humano funciona de una manera diferente a una computadora normal. El 
 
 \vspace{1em}
 
-Las redes neuronales artificiales se parecen al cerebro humano principalemente en dos aspectos: \\
+Las redes neuronales artificiales se parecen al cerebro humano principalmente en dos aspectos: \\
 1.- La red adquiere conocimiento de su ambiente a través de un proceso de aprendizaje.\\
 2.- La fuerza de conexión entre las neuronas, conocido como los pesos sinápticos, se usa para almacenar el conocimiento adquirido. \\
 El procedimiento que se usa para el proceso de aprendizaje se conoce como algoritmo de aprendizaje y su función es modificar los pesos sinápticos para mejorar el desempeño en la tarea que se quiere realizar. \cite{Haykin:1998:NNC:521706}
 
 \vspace{1em}
 
-Actualmente, el aprendizaje profundo sigue en desarrollo. Sin embargo, este ya resuelve una gran cantidad de tareas y es usado en la industria de manera importante. La mayoría de las tareas que consisten en mapear un vector de entrada a un vector de salida, y que son fáciles para una persona de realizar pueden ser resueltas con aprendizaje profundo si se tienen bases de datos y modelos suficientemente grandes. Otras tareas que no se pueden describir como mapear un vector a otro o que son suficientemente difíciles para que una persona tuviera que refleccionar para resolverlas, se mantienen fuera del alcance del aprendizaje profundo por ahora.
+Actualmente, el aprendizaje profundo sigue en desarrollo. Sin embargo, este ya resuelve una gran cantidad de tareas y es usado en la industria de manera importante. La mayoría de las tareas que consisten en mapear un vector de entrada a un vector de salida, y que son fáciles para una persona de realizar pueden ser resueltas con aprendizaje profundo si se tienen bases de datos y modelos suficientemente grandes. Otras tareas que no se pueden describir como mapear un vector a otro o que son suficientemente difíciles para que una persona tuviera que reflexionar para resolverlas, se mantienen fuera del alcance del aprendizaje profundo por ahora.
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
@@ -29,11 +29,11 @@ Actualmente, el aprendizaje profundo sigue en desarrollo. Sin embargo, este ya r
 En el siguiente capítulo se describirá el modelo básico de redes neuronales. Después, se explicarán conceptos importantes de regularización y de optimización. Finalmente, se explicarán los conceptos de redes neuronales recurrentes que se utilizarán para los experimentos de los capítulos 4 y 5.
 
 \section{Redes neuronales prealimentadas}
-Las redes neuronales prealimentadas, también conocidas como perceptrones multicapa son el modelo básico del aprendizaje profundo. El objetivo de estas es aproximar una función $f^*$. Una red neuronal prealimentada define un mapeo $y = f(x;\theta)$ y aprende el valor de los parametros $\theta$ que resulten en la mejor función de aproximación. 
+Las redes neuronales prealimentadas, también conocidas como perceptrones multicapa son el modelo básico del aprendizaje profundo. El objetivo de estas es aproximar una función $f^*$. Una red neuronal prealimentada define un mapeo $y = f(x;\theta)$ y aprende el valor de los parámetros $\theta$ que resulten en la mejor función de aproximación. 
 
 \vspace{1em}
 
-Estos modelos se conocen como prealimentados porque la información fluye a través de la función al ser evaluada en $x$, después, a través de los cálculos intermedios utilizados para definir a $f$, y, finalmente, para obtener los datos de salida $y$. No hay conexiones cíclicas en las que un dato de salida del modelo sirva de nuevo como dato de entrada. Cuando esto sucede, el modelo se conoce como red neuronal recurrente.
+Estos modelos se conocen como prealimentados porque la información fluye primero a través de la función al ser evaluada en $x$, después, a través de los cálculos intermedios utilizados para definir a $f$, y, finalmente, para obtener los datos de salida $y$. No hay conexiones cíclicas en las que un dato de salida del modelo sirva de nuevo como dato de entrada. Cuando esto sucede, el modelo se conoce como red neuronal recurrente.
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
@@ -46,21 +46,21 @@ La longitud de la red da la profundidad del modelo. Es esta terminología la que
 
 \vspace{1em}
 
-Finalmente, estas redes se conocen como neuronales porque están inspiradas en el cerebro. Cada capa es un vector y la dimensión de las capas ocultas determina el ancho del modelo. Cada elemento del vector puede pensarse que es una neurona, entonces, en vez de pensar a cada capa como una función de vector a vector, la podemos pensar como varias unidades que actuan en paralelo. Cada unidad se parece a una neurona en el sentido de que recibe datos de entrada de las otras unidades y calcula su valor de activación. La idea de usar muchas capas también proviene de la neurociencia. Sin embargo, la investigación actual en redes neuronales está guiada por muchos principios de matemáticas y de ingeniería y su objetivo no es modelar perfectamente al cerebro sino lograr generalización estadística.
+Finalmente, estas redes se conocen como neuronales porque están inspiradas en el cerebro. Cada capa es un vector y la dimensión de las capas ocultas determina el ancho del modelo. Cada elemento del vector puede pensarse que es una neurona, entonces, en vez de pensar a cada capa como una función de vector a vector, la podemos pensar como varias unidades que actúan en paralelo. Cada unidad se parece a una neurona en el sentido de que recibe datos de entrada de las otras unidades y calcula su valor de activación. La idea de usar muchas capas también proviene de la neurociencia. Sin embargo, la investigación actual en redes neuronales está guiada por muchos principios de matemáticas y de ingeniería y su objetivo no es modelar perfectamente al cerebro sino lograr generalización estadística.
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
-Para hacer la idea de una red neuronal más concreta, se dará un pequeño ejemplo con una capa oculta y dos unidades ocultas. Se quiere escoger la forma de nuestro modelo $f(x;\theta) = f^{(2)}(f^{(1)}(x))$. Las unidades ocultas $h$ de esta red neuronal son calculadas por una función $f^{(1)}(x;W,c)$. Los valores de estas unidades ocultas después son utilizadas como datos de entrada para la segunda capa. 
+Para hacer la idea de una red neuronal más concreta, se dará un pequeño ejemplo con una capa oculta y dos unidades ocultas. Se quiere escoger la forma de nuestro modelo $f(x;\theta) = f^{(2)}(f^{(1)}(x))$. Las unidades ocultas $h$ de esta red neuronal son calculadas por una función $f^{(1)}(x;W,c)$. Los valores de estas unidades ocultas después son utilizados como datos de entrada para la segunda capa. 
 
 \vspace{1em}
 
-La segunda capa es la capa de salida del modelo y en este caso será una regresión lineal aplicada a $h$, es decir, $f^{(2)}(h;w,b) = w^Th + b$. Ahora bien, si $f^{(1)}$ fuera lineal, entonces $f$ sería lineal y eso no es lo que se busca. Por lo tanto, $f^{(1)}$, la función que describe los rasgos, tendrá que ser no lineal. La mayoría de las redes neuronales utiliza una transformación afín seguido de una función no-lineal llamada función de activación. 
+La segunda capa es la capa de salida del modelo y en este caso será una regresión lineal aplicada a $h$, es decir, $f^{(2)}(h;w,b) = w^Th + b$. Ahora bien, si $f^{(1)}$ fuera lineal, entonces $f$ sería lineal y eso no es lo que se busca. Por lo tanto, $f^{(1)}$, la función que describe los rasgos, tendrá que ser no lineal. La mayoría de las redes neuronales utilizan una transformación afín seguido de una función no-lineal llamada función de activación. 
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
-Si se hace esto, entonces $h=g(W^Tx+c)$ donde $W$ son los pesos de la transformación lineal y $c$ son los sesgos. La función de activación $g$ generalmente se aplica elemento a elemento, de tal forma que $h_i = g(x^TW_{:,i}+c_i)$. En la actualidad, la función de activación que se recomienda por default es la unidad linear rectificada o ReLU por sus siglas en inglés (Rectified Linear Unit), definida por la función de activación $g(z) = max\{0,z\}$. \cite{conf/icml/NairH10}
+Si se hace esto, entonces $h=g(W^Tx+c)$ donde $W$ son los pesos de la transformación lineal y $c$ son los sesgos. La función de activación $g$ generalmente se aplica elemento a elemento, de tal forma que $h_i = g(x^TW_{:,i}+c_i)$. En la actualidad, la función de activación que se recomienda por default es la unidad lineal rectificada o ReLU por sus siglas en inglés (Rectified Linear Unit), definida por la función de activación $g(z) = max\{0,z\}$. \cite{conf/icml/NairH10}
 \cite{goodfellow-et-al-2016}
 
 Por lo tanto, el modelo definido es el siguiente:
@@ -72,7 +72,7 @@ $$f(x;W,c,w,b) = w^Tmax\{0,W^Tx+c\}+b $$
 \end{equation}
 
 \subsection{Aprendizaje con descenso de gradiente}
-Diseñar y entrenar una red neuronal no es muy diferente que entrenar cualquier otro modelo de aprendizaje de máquina con descenso de gradiente. La diferencia más grande entre los modelos lineales y las redes neuronales es que la no linearidad de las redes neuronales hace que muchas veces la función de pérdida se vuelva no convexa. Esto quiere decir que las redes neuronales generalmente se entrenan utilizando métodos de optimización iterativos basados en el descenso del gradiente. 
+Diseñar y entrenar una red neuronal no es muy diferente que entrenar cualquier otro modelo de aprendizaje de máquina con descenso de gradiente. La diferencia más grande entre los modelos lineales y las redes neuronales es que la no linealidad de las redes neuronales hace que muchas veces la función de pérdida se vuelva no convexa. Esto quiere decir que las redes neuronales generalmente se entrenan utilizando métodos de optimización iterativos basados en el descenso del gradiente. 
 \cite{goodfellow-et-al-2016}
 
 \subsubsection{Funciones de pérdida}
@@ -109,7 +109,7 @@ $$\mathrm{softmax}(z_i) = \frac{exp(z_i)}{\sum_j exp(z_j)}$$
 \end{equation}
 
 \subsubsubsection{Redes de densidad mixta}
-Las redes de densidad mixta son redes neuronales que utilizan otro tipo de unidad de salida: la mezcla de gaussianas. Estos modelos son muy efectivos para modelar movimientos de objetos físicos como se hará en el capítulo 5 al descibir movimientos de caligrafía. En la ecuación (3.2.4), se define una mezcla de gaussianas con $n$ componentes como una distribución de probabilidades condicionales.
+Las redes de densidad mixta son redes neuronales que utilizan otro tipo de unidad de salida: la mezcla de gaussianas. Estos modelos son muy efectivos para modelar movimientos de objetos físicos como se hará en el capítulo 5 al describir movimientos de caligrafía. En la ecuación 3.2.4, se define una mezcla de gaussianas con $n$ componentes como una distribución de probabilidades condicionales.
 \cite{goodfellow-et-al-2016}
 
 \begin{equation}
@@ -118,7 +118,7 @@ $$p(y|x) = \sum_{i=1}^n p(c=i|x) \mathcal{N}\left(y;\mu^{(i)}(x), \Sigma^{(i)}(x
 \end{split}
 \end{equation}
 
-La red neuronal debe entregar tres datos de salida: un vector que defina a $p(c=i|x)$, una matriz que entregue $\mu^{(i)}(x)$ para toda $i$, y un tensor que entregue $\Sigma^{(i)}(x)$. Por un lado, el vector $p(c=i|x)$, donde $c$ es una variable latente, generalmente se obtiene de aplicar una función softmax a un vector de $n$ componentes. Por otro lado, las medias $\mu^{(i)}(x)$ indican el centro de la $i$-ésima componente gaussiana, por lo que si $y$ es un vector de $d$ dimensiones, la red nos debe de entregar una matriz de $n\times d$ que contenga a los $n$ vectores de dimensión $d$. Finalemente, $\Sigma^{(i)}(x)$ calculará la matriz de covarianza para cada componente $i$.
+La red neuronal debe entregar tres datos de salida: un vector que defina a $p(c=i|x)$, una matriz que entregue $\mu^{(i)}(x)$ para toda $i$, y un tensor que entregue $\Sigma^{(i)}(x)$. Por un lado, el vector $p(c=i|x)$, donde $c$ es una variable latente, generalmente se obtiene de aplicar una función softmax a un vector de $n$ componentes. Por otro lado, las medias $\mu^{(i)}(x)$ indican el centro de la $i$-ésima componente gaussiana, por lo que si $y$ es un vector de $d$ dimensiones, la red nos debe de entregar una matriz de $n\times d$ que contenga a los $n$ vectores de dimensión $d$. Finalmente, $\Sigma^{(i)}(x)$ calculará la matriz de covarianza para cada componente $i$.
 \cite{goodfellow-et-al-2016}
 
 \subsection{Unidades ocultas}
@@ -184,7 +184,7 @@ De aquí se puede ver que el gradiente de una variable $x$ se puede obtener al m
 \cite{goodfellow-et-al-2016}
 
 \section{Regularización en aprendizaje profundo}
-En la subsección 2.3.2 se dio una breve introducción a lo que es regularización. Regularización se refiere a cualquier modificación que se hace a un algoritmo de aprendizaje para reducir su error de generalización pero no su error de entrenamiento. En esta sección, se analizarán algunos de los métodos de regularización que funcionan mejor en aprendizaje profundo. \cite{goodfellow-et-al-2016}
+En la subsección 2.3.2 se dio una breve introducción a lo que es regularización. Regularización se refiere a cualquier modificación que se hace a un algoritmo de aprendizaje para reducir su error de generalización, pero no su error de entrenamiento. En esta sección, se analizarán algunos de los métodos de regularización que funcionan mejor en aprendizaje profundo. \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
@@ -197,11 +197,11 @@ La técnica de detención temprana se basa en una idea muy simple: utilizar los 
 
 \vspace{1em}
 
-Por lo tanto, lo que se hace en la práctica es guardar los parámetros del modelo cada vez que el error de validación mejore. Al finalizar el algoritmo, se entregarán los parámetros guardados en vez de los últimos parámetros. El algorimo terminará si los parámetros no han mejorado al error de validación en un número preespecificado de iteraciones. Este es el tipo más común de regularización en aprendizaje profundo por su efectividad y simplicidad.
+Por lo tanto, lo que se hace en la práctica es guardar los parámetros del modelo cada vez que el error de validación mejore. Al finalizar el algoritmo, se entregarán los parámetros guardados en vez de los últimos parámetros. El algoritmo terminará si los parámetros no han mejorado al error de validación en un número preespecificado de iteraciones. Este es el tipo más común de regularización en aprendizaje profundo por su efectividad y simplicidad.
 \cite{goodfellow-et-al-2016}
 
 \subsection{Dropout}
-Dropout es otro método de regularización que emergió recientemente (Srivastana et al., 2014) y funciona muy bien debido a su bajo costo computacional. Basicamente, dropout funciona de la siguiente manera. Si se tienen dos capas que se conectan entre sí, los valores que van de una capa a otra se conocen como activaciones. Lo que hace dropout es que cada una de estas activaciones se hace 0 con una probabilidad $p$, donde generalmente $p=0.5$ para las capas ocultas. En otras palabras, lo que está haciendo dropout es $``$destruir$"$ la mitad de los datos.
+Dropout es otro método de regularización que emergió recientemente (Srivastana et al., 2014) y funciona muy bien debido a su bajo costo computacional. Básicamente, dropout funciona de la siguiente manera. Si se tienen dos capas que se conectan entre sí, los valores que van de una capa a otra se conocen como activaciones. Lo que hace dropout es que cada una de estas activaciones se hace 0 con una probabilidad $p$, donde generalmente $p=0.5$ para las capas ocultas. En otras palabras, lo que está haciendo dropout es $``$destruir$"$ la mitad de los datos.
 \cite{goodfellow-et-al-2016}
 \cite{Srivastava:2014:DSW:2627435.2670313}
 \cite{deeplearningbygoogle}
@@ -221,7 +221,7 @@ Esta idea puede sonar un poco rara, pero Vincent Vanhoucke explica la intuición
 
 
 \section{Optimización en aprendizaje profundo}
-La optimización es uno de los aspectos más importantes a considerar al hablar de aprendizaje profundo. La optimización de la redes neuronales, es decir, encontrar los parametros $\theta$ que minimizan la función de pérdida $J(\theta)$, es un problema bastante complicado. Es por esto que se han creado técnicas especiales para resolver este desafío. En la sección 2.5, se explicó el algoritmo básico de aprendizaje de máquina, gradiente estocástico, por lo que esta sección se dedicará a describir algunos de los algoritmos más avanzados que se usarán en los capítulos 4 y 5.
+La optimización es uno de los aspectos más importantes a considerar al hablar de aprendizaje profundo. La optimización de la redes neuronales, es decir, encontrar los parámetros $\theta$ que minimizan la función de pérdida $J(\theta)$, es un problema bastante complicado. Es por esto que se han creado técnicas especiales para resolver este desafío. En la sección 2.5, se explicó el algoritmo básico de aprendizaje de máquina, gradiente estocástico, por lo que esta sección se dedicará a describir algunos de los algoritmos más avanzados que se usarán en los capítulos 4 y 5.
 
 \vspace{1em}
 
@@ -265,7 +265,7 @@ Las redes neuronales recurrentes son una familia de redes neuronales utilizadas 
 
 \vspace{1em}
 
-Una de las claves que llevó a desarrollar las redes neuronales recurrentes es la idea de compartir parámetros a través de diferentes partes del modelo. Compartir parámetros hace posible extender y aplicar el modelo a sucesiones de diferentes longitudes y generalizar a través de ellas. Compartir parámetros es especialmente importante cuando un pedazo de información puede ocurrir en diferentes posiciones dentro de la sucesión. Por ejemplo, si se consideran los dos enunciados $``$En 2011, entré al ITAM$"$ y $``$Entré al ITAM en 2011$"$. Si se le pide a un modelo de aprendizaje de máquina leer los dos enunciados y extraer el año en el que el narrador entró al ITAM, debería reconocer 2011 como un pedazo clave de información sin importar si apareció en la quinta o en la tercera posición del enunciado. Una red neuronal convencional tendría parámetros separados para cada variable de entrada, por lo que tendría que aprender todas las reglas del lenguage de manera separada para cada posición en el enunciado. En cambio, una red neuronal recurrente comparte los pesos a través de las diferentes ventanas de tiempo.
+Una de las claves que llevó a desarrollar las redes neuronales recurrentes es la idea de compartir parámetros a través de diferentes partes del modelo. Compartir parámetros hace posible extender y aplicar el modelo a sucesiones de diferentes longitudes y generalizar a través de ellas. Compartir parámetros es especialmente importante cuando un pedazo de información puede ocurrir en diferentes posiciones dentro de la sucesión. Por ejemplo, si se consideran los dos enunciados $``$En 2011, entré al ITAM$"$ y $``$Entré al ITAM en 2011$"$. Si se le pide a un modelo de aprendizaje de máquina leer los dos enunciados y extraer el año en el que el narrador entró al ITAM, debería reconocer 2011 como un pedazo clave de información sin importar si apareció en la quinta o en la tercera posición del enunciado. Una red neuronal convencional tendría parámetros separados para cada variable de entrada, por lo que tendría que aprender todas las reglas del lenguaje de manera separada para cada posición en el enunciado. En cambio, una red neuronal recurrente comparte los pesos a través de las diferentes ventanas de tiempo.
 \cite{goodfellow-et-al-2016}
 
 \subsection{Desdoblando gráficas computacionales}
@@ -279,7 +279,7 @@ Por ejemplo, si se considera la forma clásica de un sistema dinámico:
 $$s^{(t)}=f(s^{(t-1)};\theta),$$
 \end{split}
 \end{equation}
-donde $s^{(t)}$ es el estado del sistema. La ecuación $(3.3.1)$ se considera recurrente debido a que la definición de $s$ en el tiempo $t$ alude a la misma definición pero en el tiempo $t-1$. Para un número finito de pasos $\tau$, la gráfica puede ser desdoblada aplicando la definición $\tau-1$ veces. Por ejemplo, si se desdobla la ecuación que se definió $\tau=3$ pasos de tiempo, se obtiene:
+donde $s^{(t)}$ es el estado del sistema. La ecuación $(3.3.1)$ se considera recurrente debido a que la definición de $s$ en el tiempo $t$ alude a la misma definición, pero en el tiempo $t-1$. Para un número finito de pasos $\tau$, la gráfica puede ser desdoblada aplicando la definición $\tau-1$ veces. Por ejemplo, si se desdobla la ecuación que se definió $\tau=3$ pasos de tiempo, se obtiene:
 
 \begin{equation}
 \begin{split}
@@ -320,7 +320,7 @@ Muchas redes neuronales recurrentes utilizan la ecuación 3.5.3 para definir su 
 \end{figure}
 
 \subsection{Redes neuronales recurrentes}
-Con los conceptos hasta ahora desarrollados, ya se pueden construír una variedad de redes neuronales. Se ejemplificará esto con el modelo básico que usará en los capítulos 4 y 5 para desarrollar los experimentos. Este modelo, mostrado en la figura 3.3, es una red neuronal que produce un dato de salida en cada paso de tiempo y tiene conexiones recurrentes entre las capas ocultas.
+Con los conceptos hasta ahora desarrollados, ya se pueden construir una variedad de redes neuronales. Se ejemplificará esto con el modelo básico que usará en los capítulos 4 y 5 para desarrollar los experimentos. Este modelo, mostrado en la figura 3.3, es una red neuronal que produce un dato de salida en cada paso de tiempo y tiene conexiones recurrentes entre las capas ocultas.
 \cite{goodfellow-et-al-2016}
 \cite{DBLP:journals/corr/Graves13}
 
@@ -328,7 +328,7 @@ Con los conceptos hasta ahora desarrollados, ya se pueden construír una varieda
 \begin{center}
 \includegraphics[width=150mm, scale = 0.8]{./imag/unfold3.png}
 \end{center}
-\caption{Una red neuronal recurrente enrrollada y desenrrollada. Con la sucesión de datos de entrada $x$, se calculan los datos de salida $o$ y con estos y las etiquetas $y$ se puede computar la función de pérdida correspondiente $L$. También se puede ver que $U$ es la matriz de pesos de los datos de entrada a las capas ocultas, $W$ es la matriz de pesos que conecta la recurrencia de las unidades ocultas y $V$ es la matriz de pesos de las unidades ocultas a los datos de salida $o$. Figura tomada de (Goodfellow et al, 2016).}
+\caption{Una red neuronal recurrente enrollada y desenrollada. Con la sucesión de datos de entrada $x$, se calculan los datos de salida $o$ y con estos y las etiquetas $y$ se puede computar la función de pérdida correspondiente $L$. También se puede ver que $U$ es la matriz de pesos de los datos de entrada a las capas ocultas, $W$ es la matriz de pesos que conecta la recurrencia de las unidades ocultas y $V$ es la matriz de pesos de las unidades ocultas a los datos de salida $o$. Figura tomada de (Goodfellow et al, 2016).}
 \end{figure}
 
 \vspace{1em}
@@ -392,7 +392,7 @@ $$W^t = (Vdiag(\lambda)V^{-1})^t=Vdiag(\lambda)^tV^{-1}$$
 \end{split}
 \end{equation}
 
-Por lo que los valores propios, $\lambda_i$ cuyo valor absoluto no sea cercano a $1$, se harán muy grandes si son mayores que uno, causando el problema del gradiente explosivo, o se reducirán rapidamente a cero, causando el problema del gradiente evanescente.
+Por lo que los valores propios, $\lambda_i$ cuyo valor absoluto no sea cercano a $1$, se harán muy grandes si son mayores que uno, causando el problema del gradiente explosivo, o se reducirán rápidamente a cero, causando el problema del gradiente evanescente.
 \cite{goodfellow-et-al-2016}
 \cite{Haykin:1998:NNC:521706}
 

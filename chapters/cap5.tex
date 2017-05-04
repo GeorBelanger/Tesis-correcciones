@@ -15,7 +15,7 @@ En el siguiente capítulo, se comenzará por dar más detalles sobre la base de 
 
 
 \section{Descripción de la base de datos}
-La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700.
+La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarrojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700.
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{figure}[h]
@@ -34,7 +34,7 @@ En la sección 3.2, se dio una breve introducción a redes de densidad mixtas. E
 
 \vspace{1em}
 
-Cada vector de entrada $x_t$ consiste de un par de números reales $x_1,x_2$ que define la desviación de la pluma con respecto al dato de entrada anterior, y una variable binaria $x_3$ que tiene valor 1 cuando el vector termina un trazo, es decir, si la pluma fue levantada del pizarrón antes que el siguiente vector fuera registrado. Una mezcla de gaussianas bivariadas fue usada para predecir $x_1$ y $x_2$, mientras que una distribución Bernoulli fue usada para $x_3$. Cada vector de salida $y_t$ consiste de la probabilidad de fin de trazo $e$, un conjunto de medias $\mu^j$, desviaciones estandar $\sigma^j$, correlaciones $\rho^j$ y pesos de mezcla $\pi^j$ para las $M$ componentes de mezcla. A continuación se pueden ver las ecuaciones que se describieron siguiendo a (Graves, 2013).
+Cada vector de entrada $x_t$ consiste de un par de números reales $x_1,x_2$ que define la desviación de la pluma con respecto al dato de entrada anterior, y una variable binaria $x_3$ que tiene valor 1 cuando el vector termina un trazo, es decir, si la pluma fue levantada del pizarrón antes que el siguiente vector fuera registrado. Una mezcla de gaussianas bivariadas fue usada para predecir $x_1$ y $x_2$, mientras que una distribución Bernoulli fue usada para $x_3$. Cada vector de salida $y_t$ consiste de la probabilidad de fin de trazo $e$, un conjunto de medias $\mu^j$, desviaciones estándar $\sigma^j$, correlaciones $\rho^j$ y pesos de mezcla $\pi^j$ para las $M$ componentes de mezcla. A continuación se pueden ver las ecuaciones que se describieron siguiendo a (Graves, 2013).
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{equation}
@@ -48,7 +48,7 @@ $$y_t = \left( e_t , \{\pi^j_t, \mu^j_t, \sigma^j_t, \rho^j_t \}_{j=1}^M \right)
 \end{split}
 \end{equation}
 
-La media y desviación estandar son vectores de dimensión 2, mientras que el peso, la correlación y la probabilidad de término de trazo son escalares. Los vectores $y_t$ se obtienen de los datos de salida de la red $\hat{y_t}$ de la siguiente manera:
+La media y desviación estándar son vectores de dimensión 2, mientras que el peso, la correlación y la probabilidad de término de trazo son escalares. Los vectores $y_t$ se obtienen de los datos de salida de la red $\hat{y_t}$ de la siguiente manera:
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{equation}
@@ -197,7 +197,7 @@ Para elegir los hiperparámetros del modelo, se tomó como base (Graves, 2013). 
 
 \vspace{1em}
 
-El modelo utilizó 3 capas ocultas con 200 unidades LSTM en cada una, los batches con tamaño 64, 8 gaussianas en la capa de salida, a rmsprop como algoritmo de optimización y recorte de gradiente a 10. La red recurrente se desenrolló 150 pasos de tiempo y el promedio de pasos de tiempo o trazos de cada letra se fijo en 25. Por lo que el algoritmo se fija en promedio en las 6 letras anteriores para hacer el siguiente trazo. Para la generación de sucesiones, se escogieron frases que tuvieran que ver con la misión, filosofía o mercadotecnia del ITAM.
+El modelo utilizó 3 capas ocultas con 200 unidades LSTM en cada una, los batches con tamaño 64, 8 gaussianas en la capa de salida, a rmsprop como algoritmo de optimización y recorte de gradiente a 10. La red recurrente se desenrolló 150 pasos de tiempo y el promedio de pasos de tiempo o trazos de cada letra se fijó en 25. Por lo que el algoritmo se fija en promedio en las 6 letras anteriores para hacer el siguiente trazo. Para la generación de sucesiones, se escogieron frases que tuvieran que ver con la misión, filosofía o mercadotecnia del ITAM.
 
 \vspace{1em}
 
@@ -241,7 +241,7 @@ A continuación, se entrenará un modelo más compacto por más tiempo y se comp
 
 \vspace{1em}
 
-De igual forma que se hizo en el capítulo 4, en este modelo también podemos hacer que el modelo entregue elementos más probables de $P(x|c)$ para que las sucesiones sean más estables. Para hacer esto, se sesgará el sampleado hacia predicciones más probables en cada paso. Si $b$ es el sesgo de probabilidad, un real mayor o igual a cero, antes de samplear de $Pr(x_{t+1}|y_t)$, cada desviación estandar $\sigma_t^j$ en la mezcla gaussiana de la ecuación 5.3.6, se puede recalcular de la siguiente manera:
+De igual forma que se hizo en el capítulo 4, en este modelo también podemos hacer que el modelo entregue elementos más probables de $P(x|c)$ para que las sucesiones sean más estables. Para hacer esto, se sesgará el sampleado hacia predicciones más probables en cada paso. Si $b$ es el sesgo de probabilidad, un real mayor o igual a cero, antes de samplear de $Pr(x_{t+1}|y_t)$, cada desviación estándar $\sigma_t^j$ en la mezcla gaussiana de la ecuación 5.3.6, se puede recalcular de la siguiente manera:
 \cite{DBLP:journals/corr/Graves13}
 
 \begin{equation}
@@ -258,7 +258,7 @@ $$\pi_t^j = \frac{\mathrm{exp}(\hat{\pi}_t^j(1+b))}{\sum_{j'=1}^M \mathrm{exp}(\
 \end{split}
 \end{equation}
 
-Esto reduce artificialmente la varianza tanto en la elección del componente de mezcla como en la distribución del componente. Cuando $b=0$ se obtiene un sampleado insesgado y, conforme $b$ tiende a infinito, la varianza en el sampleado desaparece. En las figuras 5.7 y 5.8, se puede ver la generación de sucesiones sesgadas basadas en la frase $``$Por un Mexico más libre, más justo y más próspero$"$. 
+Esto reduce artificialmente la varianza tanto en la elección del componente de mezcla como en la distribución del componente. Cuando $b=0$ se obtiene un sampleado insesgado y, conforme $b$ tiende a infinito, la varianza en el sampleado desaparece. En las figuras 5.7 y 5.8, se puede ver la generación de sucesiones sesgadas basadas en la frase $``$Por un México más libre, más justo y más próspero$"$. 
 
 \begin{figure}[h]
 \begin{center}

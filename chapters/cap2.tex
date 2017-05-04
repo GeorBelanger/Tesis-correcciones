@@ -10,7 +10,7 @@ En esta definición de la palabra $``$tarea$"$, el proceso de aprender no es en 
 
 \vspace{1em}
 
-Las tareas en aprendizaje de máquina se describen en términos de cómo el sistema de aprendizaje de máquina debería procesar un ejemplo. Un ejemplo es una colección de características que han sido cuantitativamente medidas de un objeto o evento que queremos que el sistema procese. Generalmente representamos un ejemplo como un vector $x \in R^n$ donde cada entrada $x_i$ del vector es otra característica. Por ejemplo, las características de una imagen son generalmente los valores de los pixeles de la imagen. En el ejemplo de programar a un robot para que aprenda a manejar, las características serían los valores de los pixeles de todas las imágenes del video. \cite{goodfellow-et-al-2016}
+Las tareas en aprendizaje de máquina se describen en términos de cómo el sistema de aprendizaje de máquina debería procesar un ejemplo. Un ejemplo es una colección de características que han sido cuantitativamente medidas de un objeto o evento que queremos que el sistema procese. Generalmente representamos un ejemplo como un vector $x \in R^n$ donde cada entrada $x_i$ del vector es otra característica. Por ejemplo, las características de una imagen son generalmente los valores de los pixeles de la imagen. En el ejemplo de programar a un robot para que aprenda a manejar, las características serían los valores de los pixeles de todas las imágenes de las que está compuesto el video. \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
@@ -18,11 +18,11 @@ Muchas tareas se pueden resolver con aprendizaje de máquina. Algunas de las má
 \cite{goodfellow-et-al-2016}
 
 \subsection{La medida de desempeño, $P$}
-Para poder evaluar las habilidades de un algoritmo de aprendizaje de máquina, se debe diseñar una medida cuantitativa de su desempeño. Para tareas tales como clasificación y transcripción, generalmente se mide la precisión del modelo. La precisión es simplemente la proporción de ejemplos para los cuales el modelo produce el resultado correcto. También se puede, de manera equivalente, medir la tasa de error. En el ejemplo del robot manejando, la medida de desempeño podría ser el porcentaje de decisiones que llevan a un accidente.
+Para poder evalúar las habilidades de un algoritmo de aprendizaje de máquina, se debe diseñar una medida cuantitativa de su desempeño. Para tareas tales como clasificación y transcripción, generalmente se mide la precisión del modelo. La precisión es simplemente la proporción de ejemplos para los cuales el modelo produce el resultado correcto. También se puede, de manera equivalente, medir la tasa de error. En el ejemplo del robot manejando, la medida de desempeño podría ser la tasa de accidentes o el porcentaje de decisiones correctas que toma el robot, ya sea frenar, acelerar, girar a la derecha, etc.
 
 \vspace{1em}
 
-Usualmente, se busca observar qué tan bien el algoritmo se desempeña con datos que no ha visto antes, puesto que esto determina qué tan bien funcionará cuando sea usado en el mundo real. Por lo tanto, se evaluan estas medidas de desempeño utilizando un conjunto de prueba con datos que están separados de los datos que se utilizaron para entrenar al sistema de aprendizaje de máquina. \cite{goodfellow-et-al-2016}
+Usualmente, se busca observar qué tan bien se desempeña el algoritmo con datos que no ha visto antes, puesto que esto determina qué tan bien funcionará cuando sea usado en el mundo real. Por lo tanto, se evalúan estas medidas de desempeño utilizando un conjunto de prueba con datos que están separados de los datos que se utilizaron para entrenar al sistema de aprendizaje de máquina. \cite{goodfellow-et-al-2016}
 
 \subsection{La experiencia, $E$}
 Los algoritmos de aprendizaje de máquina pueden ser categorizados como supervisados o no supervisados de acuerdo al tipo de experiencia que se le permite tener durante el proceso de entrenamiento.
@@ -36,7 +36,7 @@ En los algoritmos de aprendizaje supervisado o de predicción, se experimenta co
 En los algoritmos de aprendizaje no supervisado, o de descripción, se experimenta solamente el conjunto de datos $D = \{(x_i)\}_{i=1}^N$, y el objetivo es encontrar patrones interesantes en los datos. Por lo que regresando al ejemplo del robot que maneja, la experiencia son las imágenes que el robot recibe y, si es aprendizaje supervisado, las etiquetas podrían ser la decisión que debería tomar el robot en ese momento: frenar, acelerar, girar a la derecha, etc. \cite{Murphy:2012:MLP:2380985}
 
 \section{Capacidad, sobreajuste y subajuste}
-El reto principal del aprendizaje de máquina es que debe tener buen desempeño en datos de entrada nuevos que nunca se hayan visto, no solamente en los datos con los que se entrenó al algoritmo. La habilidad de desempeñarse bien en datos no antes vistos se llama generalización.
+El reto principal del aprendizaje de máquina es que los algoritmos deben tener buen desempeño en datos de entrada nuevos que nunca se hayan visto, no solamente en los datos con los que se entrenó al algoritmo. La habilidad de desempeñarse bien en datos no antes vistos se llama generalización.
 
 
 \vspace{1em}
@@ -45,11 +45,11 @@ Generalmente, cuando se entrena un modelo de aprendizaje de máquina, se tiene a
 
 \vspace{1em}
 
-El error de generalización se define como el valor esperado del error en un nuevo dato de entrada. Generalmente se estima el error de generalización de un modelo de aprendizaje de máquina al medir su desempeño con respecto a un conjunto de prueba con ejemplos que fueron recolectados de manera separada al conjunto de entrenamiento. 
+El error de generalización se define como el valor esperado del error en un nuevo dato de entrada. Normalmente, se estima el error de generalización de un modelo de aprendizaje de máquina al medir su desempeño con respecto a un conjunto de prueba con ejemplos que fueron recolectados de manera separada al conjunto de entrenamiento. 
 
 \vspace{1em}
 
-En la práctica, los factores que determinan qué tan bien se desempeñará un algoritmo de aprendizaje de máquina dependerá de su habilidad para hacer lo siguiente:
+En la práctica, los factores que determinan qué tan bien se desempeñará un algoritmo de aprendizaje de máquina depende de su habilidad para hacer lo siguiente:
 
 1.- Reducir el error de entrenamiento
 
@@ -61,19 +61,19 @@ Estos dos factores corresponden a los dos retos centrales en aprendizaje de máq
 
 \vspace{1em}
 
-Se puede controlar si un modelo es más probable que sobreajuste o subajuste al modificar su capacidad. Informalemente, la capacidad de un modelo es su habilidad para ajustar una variedad de funciones. Modelos con baja capacidad tendrán dificultades para ajustar al conjunto de entrenamiento. Modelos con una alta capacidad pueden sobrestimar al memorizar propiedades del conjunto de entrenamiento que no le funciona bien en el conjunto de prueba.
+Se puede controlar si un modelo es más probable que sobreajuste o subajuste al modificar su capacidad. Informalmente, la capacidad de un modelo es su habilidad para ajustar una variedad de funciones. Modelos con baja capacidad tendrán dificultades para ajustar al conjunto de entrenamiento. Modelos con una alta capacidad pueden sobrestimar al memorizar propiedades del conjunto de entrenamiento que no funcionarán bien en el conjunto de prueba.
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
-Una forma en que se puede controlar la capacidad de un algoritmo de aprendizaje es al escoger el espacio de hipótesis, es decir, el conjunto de funciones entre las que el algoritmo puede escoger como soluciones. Por ejemplo, el algoritmo de regresión lineal tiene al conjunto de todas las funciones lineales de sus datos de entrada como su espacio de hipótesis. Se puede generalizar a la regresión lineal para incluir polinomios en su espacio de hipótesis, en vez de solo funciones lineales. Al hacer esto, se incrementa la capacidad del modelo.
+Una forma de controlar la capacidad de un algoritmo de aprendizaje es escoger el espacio de hipótesis, es decir, el conjunto de funciones entre las que el algoritmo puede escoger como soluciones. Por ejemplo, el algoritmo de regresión lineal tiene al conjunto de todas las funciones lineales de sus datos de entrada como su espacio de hipótesis. Se puede generalizar a la regresión lineal para incluir polinomios en su espacio de hipótesis, en vez de solo funciones lineales. Al hacer esto, se incrementa la capacidad del modelo.
 
 \vspace{1em}
 
-Los algoritmos de aprendizaje de máquina generalmente tendrán mejor desempeño cuando su capacidad sea apropiada para la verdadera complejidad de la tarea que se tiene que realizar y la cantidad de datos de entrenamiento que se le da. Modelos con capacidad insuficiente son incapaces de resolver tareas complejas. Modelos con alta capacidad son capaces de resolver tareas complejas, pero, cuando su capacidad es mayor que la necesitada para resolver la tarea en cuestión, pueden sobrestimar los datos.
+Los algoritmos de aprendizaje de máquina generalmente tendrán mejor desempeño cuando su capacidad sea apropiada para la verdadera complejidad de la tarea que se tiene que realizar y la cantidad de datos de entrenamiento que se le da. Modelos con capacidad insuficiente son incapaces de resolver tareas complejas. Modelos con alta capacidad son capaces de resolver tareas complejas, pero, cuando su capacidad es mayor que la necesitada para resolver la tarea en cuestión, pueden sobrestimar a los datos.
 
 \subsection{Búsqueda de distribuciones útiles}
-Una parte muy importante del aprendizaje de máquina es idear diferentes modelos y diferentes algoritmos para ajustarlos. Sin embargo, se puede demostrar que no hay un modelo que sea universalmente mejor que los demás. Esta idea la formalizó David Wolpert en 1996 y se conoce como el teorema de ``no free lunch". Este teorema expone que, promediando sobre todas las posibles distribuciones de datos, cada algoritmo de clasificación tiene la misma tasa de error. 
+Una parte muy importante del aprendizaje de máquina es idear diferentes modelos y diferentes algoritmos para ajustarlos. Sin embargo, se puede demostrar que no hay un modelo que sea universalmente mejor que los demás. Esta idea la formalizó David Wolpert en 1996 y se conoce como el teorema de $``$no free lunch$"$. Este teorema expone que, promediando sobre todas las posibles distribuciones de datos, cada algoritmo de clasificación tiene la misma tasa de error. 
 \cite{Murphy:2012:MLP:2380985}
 \cite{wolpert}
 
@@ -87,12 +87,12 @@ Esto significa que el objetivo del aprendizaje de máquina no es buscar un algor
 \cite{goodfellow-et-al-2016}
 
 \subsection{Regularización}
-El teorema de $``$no free lunch$"$ implica que se debe diseñar los algoritmos para que se desempeñen bien en tareas específicas. Esto se hace construyendo un conjunto de preferencias dentro del algoritmo. Cuando estas preferencias están alineadas con los problemas de aprendizaje que se le pide al algoritmo resolver, se obtiene un mejor desempeño.
+El teorema de $``$no free lunch$"$ implica que los algoritmos se deben diseñar para que se desempeñen bien en tareas específicas. Esto se hace construyendo un conjunto de preferencias dentro del algoritmo. Cuando estas preferencias están alineadas con los problemas de aprendizaje que se le pide al algoritmo resolver, se obtiene un mejor desempeño.
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
-Por ejemplo, se puede modificar el criterio de entrenamiento de una regresión lineal para incluir decaímento de pesos. Para realizar una regresión lineal con decaímento de pesos, se minimiza una suma que contiene al error cuadrático medio del entrenamiento y un criterio $J(w)$ que expresa una preferencia para que los pesos tengan una norma menor. En específico: 
+Por ejemplo, se puede modificar el criterio de entrenamiento de una regresión lineal para incluir decaimento de pesos. Para realizar una regresión lineal con decaimento de pesos, se minimiza una suma que contiene al error cuadrático medio del entrenamiento y un criterio $J(w)$ que expresa una preferencia para que los pesos tengan una norma menor. En específico: 
 
 \begin{equation}
 \begin{split}
@@ -100,7 +100,7 @@ $$ J(w) = ECM_{\mathrm{entrenamiento}} + \lambda w^\intercal w$$
 \end{split}
 \end{equation}
 
-donde $\lambda$ es un valor escogido con anterioridad que controla nuestra preferencia por pesos más pequeños. Cuando $\lambda = 0$, no se impone preferencia, y cuando se hace crecer a $\lambda$ se forza a los pesos a hacerse más pequeños. Al minimizar $J(w)$, se obtiene una elección de pesos que compensa entre ajustar los datos de entrenamiento y mantenerlos pequeños.
+donde $\lambda$ es un valor escogido con anterioridad que controla nuestra preferencia por pesos más pequeños. Cuando $\lambda = 0$, no se impone preferencia, y cuando se hace crecer a $\lambda$ se fuerza a los pesos a hacerse más pequeños. Al minimizar $J(w)$, se obtiene una elección de pesos que compensa entre ajustar los datos de entrenamiento y mantenerlos pequeños.
 
 \vspace{1em}
 
@@ -112,12 +112,12 @@ La mayoría de los algoritmos de aprendizaje tienen diferentes parámetros que s
 
 \vspace{1em}
 
-Algunas veces, un parámetro se escoge como hiperparámetro debido a que es difícil que el algoritmo lo optimize. Con más frecuencia, un parámetro se escoge como hiperparámetro debido a que no es apropiado aprender este con el conjunto de entrenamiento. Esto aplica a todos los hiperparámetros que controlan la capacidad del modelo. Si se aprendieran estos con el conjunto de entrenamiento, los hiperparámetros siempre escogerían el modelo con la mayor capacidad, resultando en un sobreajuste.
+Algunas veces, un parámetro se escoge como hiperparámetro debido a que es difícil que el algoritmo lo optimice. Con más frecuencia, un parámetro se escoge como hiperparámetro debido a que no es apropiado aprender este con el conjunto de entrenamiento. Esto aplica a todos los hiperparámetros que controlan la capacidad del modelo. Si se aprendieran estos con el conjunto de entrenamiento, los hiperparámetros siempre escogerían el modelo con la mayor capacidad, resultando en un sobreajuste.
 \cite{goodfellow-et-al-2016}
 
 \vspace{1em}
 
-Para resolver este problema, se utiliza un conjunto de validación con ejemplos que el algoritmo de entrenamiento no observa. El conjunto de validación servirá para ajustar los hiperparámetros. Por lo tanto, este conjunto debe estar separado del conjunto de prueba para no subestimar el error de generalización. Es decir que el conjunto de validación debe provenir de los datos de entrenamiento.
+Para resolver este problema, se utiliza un conjunto de validación con ejemplos que el algoritmo de entrenamiento no observa. El conjunto de validación servirá para ajustar los hiperparámetros. Por lo tanto, este conjunto debe estar separado del conjunto de prueba para no subestimar el error de generalización. Por lo que el conjunto de validación debe provenir de los datos de entrenamiento.
 
 \vspace{1em}
 
@@ -172,11 +172,11 @@ donde $\epsilon$ es la tasa de aprendizaje.
 \cite{goodfellow-et-al-2016}
 
 \section{Cómo construir un algoritmo de aprendizaje}
-Casi todos los algoritmos de aprendizaje profundo tienen la siguiente composición: se combina un conjunto de datos, una función de costo, un procedimiento de optimización y un modelo. Como se pueden remplazar estos componentes casi de manera independiente, es posible contruir una gran cantidad de modelos al hacer cambios en alguna parte de la composición.
+Casi todos los algoritmos de aprendizaje profundo tienen la siguiente composición: se combina un conjunto de datos, una función de costo, un procedimiento de optimización y un modelo. Como se pueden remplazar estos componentes casi de manera independiente, es posible construir una gran cantidad de modelos al hacer cambios en alguna parte de la composición.
 
 \vspace{1em}
 
-La función de costo generalmente incluye al menos un término que hace que el proceso de aprendizaje realize una estimación estadística. La función de costo más común es log-verosimilitud negativa, por lo que al minimizar la función de costo se hace una estimación de máxima verosimilitud. La función de costo también puede contener términos adicionales, tales como términos de regularización. Si nuestro algoritmo es no lineal, entonces las funciones de costo no podrán ser optimizadas en una forma cerrada. Esto obliga a utilizar un procedimiento de optimización numérica iterativa, como descenso de gradiente. 
+La función de costo generalmente incluye al menos un término que hace que el proceso de aprendizaje realice una estimación estadística. La función de costo más común es log-verosimilitud negativa, por lo que al minimizar la función de costo se hace una estimación de máxima verosimilitud. La función de costo también puede contener términos adicionales, tales como términos de regularización. Si nuestro algoritmo es no lineal, entonces las funciones de costo no podrán ser optimizadas en una forma cerrada. Esto obliga a utilizar un procedimiento de optimización numérica iterativa, como descenso de gradiente. 
 \cite{goodfellow-et-al-2016}
 
 \section{Limitaciones en aprendizaje de máquina tradicional}
@@ -195,7 +195,7 @@ Parecería razonable que con un conjunto de datos grande siempre sería posible 
 
 \vspace{1em}
 
-Este concepto se expondrá con un ejemplo de (Hastie et al. 2001, p22). Supongamos que se utiliza un método de vecinos más cercanos para datos de entrada uniformamente distribuidos en un hipercubo unitario $p$-dimensional. Supongamos que se emplea una vecindad hipercúbica alrededor de un punto objetivo para capturar una fracción $r$ de las observaciones. Como esto corresponde a una fracción $r$ del volumen unitario, el tamaño esperado del borde será $e_p(r) = r^{\frac{1}{p}}$. En 10 dimensiones $e_10(0.01)=0.63$ y $e_10(0.1) = 0.80$. Por lo que para capturar $1\%$ o $10\%$ de los datos para formar un promedio local, se necesita cubrir $63\%$ o $80\%$ del rango para cada variable de entrada. Claramente, estos vecinarios ya no son locales. \cite{hastie01statisticallearning}
+Este concepto se expondrá con un ejemplo de (Hastie et al. 2001, p22). Supongamos que se utiliza un método de vecinos más cercanos para datos de entrada uniformemente distribuidos en un hipercubo unitario $p$-dimensional. Supongamos que se emplea una vecindad hipercúbica alrededor de un punto objetivo para capturar una fracción $r$ de las observaciones. Como esto corresponde a una fracción $r$ del volumen unitario, el tamaño esperado del borde será $e_p(r) = r^{\frac{1}{p}}$. En 10 dimensiones $e_10(0.01)=0.63$ y $e_10(0.1) = 0.80$. Por lo que para capturar $1\%$ o $10\%$ de los datos para formar un promedio local, se necesita cubrir $63\%$ o $80\%$ del rango para cada variable de entrada. Claramente, estos vecindarios ya no son locales. \cite{hastie01statisticallearning}
 
 \vspace{1em}
 
