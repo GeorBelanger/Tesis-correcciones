@@ -1,13 +1,11 @@
 \section{Introducción}
 En este capítulo, se usará el modelo de redes neuronales recurrentes con unidades LSTM para analizar la distribución de sucesiones cuyos valores sean reales. Por lo tanto, siguiendo el trabajo de (Graves, 2013), se utilizará la base de datos de caligrafía en línea de IAM (IAM-OnDB) \cite{handwriting}. 
-Se llama caligrafía en línea porque la escritura está registrada como sucesiones de la ubicación de la punta de la pluma. Estos datos son atractivos para la generación de sucesiones debido a su baja dimensionalidad, dos números reales por cada punto, y su facilidad de visualización. 
-\cite{handwriting}
-\cite{DBLP:journals/corr/Graves13}
+Se llama caligrafía en línea porque la escritura está registrada como sucesiones de la ubicación de la punta de la pluma. Estos datos son atractivos para la generación de sucesiones debido a su baja dimensionalidad, dos números reales por cada punto, y su facilidad de visualización \cite{handwriting} \cite{DBLP:journals/corr/Graves13}.
 
 
 \vspace{1em}
 
-Siguiendo a (Graves, 2013), el objetivo del capítulo será de generar caligrafía en línea con buena legibilidad. Por esta razón y porque no existen $``$benchmarks$"$ relevantes, los resultados de validación pasarán a segundo plano. Por otro lado, determinar una distribución predictiva que funcione bien con los datos de entrada fue el principal reto para Graves. El modelo que decidió utilizar el científico tiene tres componentes principales: las unidades de memoria LSTM, un mecanismo de atención y una mezcla de gaussianas como capa de salida para generar una red de densidad mixta. 
+Siguiendo a (Graves, 2013), el objetivo del capítulo será de generar caligrafía en línea con buena legibilidad. Por esta razón y porque no existen $``$benchmarks$"$ relevantes, los resultados de validación pasarán a segundo plano. Por otro lado, determinar una distribución predictiva que funcione bien con los datos de entrada fue el principal reto para Graves. El modelo tiene tres componentes principales: las unidades de memoria LSTM, un mecanismo de atención y una mezcla de gaussianas como capa de salida para generar una red de densidad mixta. 
 
 \vspace{1em}
 
@@ -15,8 +13,7 @@ En el siguiente capítulo, se comenzará por dar más detalles sobre la base de 
 
 
 \section{Descripción de la base de datos}
-La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarrojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700.
-\cite{DBLP:journals/corr/Graves13}
+La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea registrados a partir de 221 escritores diferentes utilizando un $``$pizarrón inteligente$"$. A los escritores se les pidió escribir enunciados contenidos en la base de texto Lancaster-Oslo-Bergen y la posición de su pluma fue registrada utilizando un dispositivo infrarrojo en la esquina del pizarrón. Los datos originales contienen las coordenadas $(x,y)$ de los puntos además de otra variable que indica en qué puntos se levantó la pluma del pizarrón. Predecir el movimiento de la pluma un punto a la vez permite al modelo tener máxima flexibilidad para inventar caligrafía nueva, pero también requiere mucha memoria. La letra promedio ocupa más de 25 periodos y el enunciado promedio alrededor de 700 \cite{DBLP:journals/corr/Graves13}.
 
 \begin{figure}[h]
 \begin{center}
@@ -29,13 +26,11 @@ La base de datos IAM-OnDB consiste de enunciados de caligrafía en línea regist
 Como se mencionó en la introducción del capítulo, el modelo utilizado para este experimento tiene 3 partes principales: las unidades de memoria LSTM, un mecanismo de atención y una red de densidad mixta. Las unidades de memoria LSTM se explicaron en el capítulo 3, por lo que, en esta sección, se explicará cómo funciona la densidad mixta en el modelo y después se describirá el mecanismo de atención. 
 
 \subsection{Red de densidad mixta}
-En la sección 3.2, se dio una breve introducción a redes de densidad mixtas. El objetivo de estas es usar los datos de salida de una red neuronal para parametrizar una mezcla de distribuciones. Una parte de los datos de salida se usan para definir los pesos de mezcla y el resto para parametrizar las componentes de las mezclas individuales. Los pesos de mezcla se normalizan con una función softmax y a los demás datos de salida se les aplican funciones adecuadas para mantener sus valores en un rango adecuado. La red de densidad mixta se entrena maximizando la log probabilidad de los objetivos bajo las distribuciones inducidas.
-\cite{DBLP:journals/corr/Graves13}
+En la sección 3.2, se dio una breve introducción a redes de densidad mixtas. El objetivo de estas es usar los datos de salida de una red neuronal para parametrizar una mezcla de distribuciones. Una parte de los datos de salida se usan para definir los pesos de mezcla y el resto para parametrizar las componentes de las mezclas individuales. Los pesos de mezcla se normalizan con una función softmax y a los demás datos de salida se les aplican funciones adecuadas para mantener sus valores en un rango adecuado. La red de densidad mixta se entrena maximizando la log probabilidad de los objetivos bajo las distribuciones inducidas \cite{DBLP:journals/corr/Graves13}.
 
 \vspace{1em}
 
-Cada vector de entrada $x_t$ consiste de un par de números reales $x_1,x_2$ que define la desviación de la pluma con respecto al dato de entrada anterior, y una variable binaria $x_3$ que tiene valor 1 cuando el vector termina un trazo, es decir, si la pluma fue levantada del pizarrón antes que el siguiente vector fuera registrado. Una mezcla de gaussianas bivariadas fue usada para predecir $x_1$ y $x_2$, mientras que una distribución Bernoulli fue usada para $x_3$. Cada vector de salida $y_t$ consiste de la probabilidad de fin de trazo $e$, un conjunto de medias $\mu^j$, desviaciones estándar $\sigma^j$, correlaciones $\rho^j$ y pesos de mezcla $\pi^j$ para las $M$ componentes de mezcla. A continuación se pueden ver las ecuaciones que se describieron siguiendo a (Graves, 2013).
-\cite{DBLP:journals/corr/Graves13}
+Cada vector de entrada $x_t$ consiste de un par de números reales $x_1,x_2$ que define la desviación de la pluma con respecto al dato de entrada anterior, y una variable binaria $x_3$ que tiene valor 1 cuando el vector termina un trazo, es decir, si la pluma fue levantada del pizarrón antes que el siguiente vector fuera registrado. Una mezcla de gaussianas bivariadas fue usada para predecir $x_1$ y $x_2$, mientras que una distribución Bernoulli fue usada para $x_3$. Cada vector de salida $y_t$ consiste de la probabilidad de fin de trazo $e$, un conjunto de medias $\mu^j$, desviaciones estándar $\sigma^j$, correlaciones $\rho^j$ y pesos de mezcla $\pi^j$ para las $M$ componentes de mezcla. A continuación se pueden ver las ecuaciones que se describieron siguiendo a (Graves, 2013) \cite{DBLP:journals/corr/Graves13}.
 
 \begin{equation}
 \begin{split}
@@ -48,8 +43,7 @@ $$y_t = \left( e_t , \{\pi^j_t, \mu^j_t, \sigma^j_t, \rho^j_t \}_{j=1}^M \right)
 \end{split}
 \end{equation}
 
-La media y desviación estándar son vectores de dimensión 2, mientras que el peso, la correlación y la probabilidad de término de trazo son escalares. Los vectores $y_t$ se obtienen de los datos de salida de la red $\hat{y_t}$ de la siguiente manera:
-\cite{DBLP:journals/corr/Graves13}
+La media y desviación estándar son vectores de dimensión 2, mientras que el peso, la correlación y la probabilidad de término de trazo son escalares. Los vectores $y_t$ se obtienen de los datos de salida de la red $\hat{y_t}$ de la siguiente manera \cite{DBLP:journals/corr/Graves13}:
 
 \begin{equation}
 \begin{split}
@@ -122,8 +116,7 @@ Por lo tanto, si se utiliza la función de pérdida logarítmica, al sustituir l
 
 \vspace{1em}
 
-En la figura 5.2, se puede ver que hay dos tipos de predicción en la capa de densidad mixta: las pequeñas burbujas que denotan los trazos que se hacen al escribir las letras, y unas burbujas más grandes que son las predicciones al terminar un trazo y para comenzar el siguiente. Las predicciones al final de los trazos tienen una varianza más alta porque la posición de la pluma no fue registrada cuando estuvo despegada del pizarrón y, por lo tanto, puede haber una distancia más grande entre el final de un trazo y el siguiente.
-\cite{DBLP:journals/corr/Graves13}
+En la figura 5.2, se puede ver que hay dos tipos de predicción en la capa de densidad mixta: las pequeñas burbujas que denotan los trazos que se hacen al escribir las letras, y unas burbujas más grandes que son las predicciones al terminar un trazo y para comenzar el siguiente. Las predicciones al final de los trazos tienen una varianza más alta porque la posición de la pluma no fue registrada cuando estuvo despegada del pizarrón y, por lo tanto, puede haber una distancia más grande entre el final de un trazo y el siguiente \cite{DBLP:journals/corr/Graves13}:
 
 \begin{figure}[h]
 \begin{center}
@@ -134,11 +127,10 @@ En la figura 5.2, se puede ver que hay dos tipos de predicción en la capa de de
 
 \vspace{1em}
 
-La capa de densidad mixta es muy útil para generar caligrafía convincente. Sin embargo, todavía hace falta la parte del modelo que permitirá generar las sucesiones de texto que se requieran. Esta parte del modelo, llamada mecanismo de atención, se presentará a continuación.
+La capa de densidad mixta es muy útil para generar caligrafía convincente. Sin embargo, todavía hace falta la parte del modelo que permitirá generar las sucesiones de texto que se requieran.
 
 \subsection{Mecanismos de atención}
-Para poder generar caligrafía para un cierto texto dado, se condicionarán las predicciones de la caligrafía en el texto que se quiere escribir. Sin embargo, uno de los problemas más importantes al tratar de hacer esto es que la sucesión de caligrafía es 25 veces más grande en promedio que el texto. Otro reto es que la alineación entre el texto y la caligrafía no se conoce hasta que los datos son generados debido a que el número de coordenadas usadas para escribir cada caracter cambia de manera importante de acuerdo al estilo, tamaño, velocidad de la pluma, etc. 
-\cite{DBLP:journals/corr/Graves13}
+Para poder generar caligrafía para un cierto texto dado, se condicionarán las predicciones de la caligrafía en el texto que se quiere escribir. Sin embargo, uno de los problemas más importantes al tratar de hacer esto es que la sucesión de caligrafía es 25 veces más grande en promedio que el texto. Otro reto es que la alineación entre el texto y la caligrafía no se conoce hasta que los datos son generados debido a que el número de coordenadas usadas para escribir cada caracter cambia de manera importante de acuerdo al estilo, tamaño, velocidad de la pluma, etcétera \cite{DBLP:journals/corr/Graves13}.
 
 \vspace{1em}
 
@@ -146,8 +138,7 @@ Para resolver este problema, siguiendo a (Graves, 2013), en este trabajo se crea
 
 \vspace{1em}
 
-La ventana suave se define a continuación. Dada una sucesión $c$ con $U$ caracteres, la ventana suave $w_t$ con respecto al paso de tiempo $t$ $(1 \leq t \leq T)$ se define mediante la siguiente convolución con una mezcla de $K$ funciones gaussianas donde $\phi(t,u)$ es el peso de la ventana de $c_u$ en el tiempo $t$.
-\cite{DBLP:journals/corr/Graves13}
+La ventana suave se define a continuación. Dada una sucesión $c$ con $U$ caracteres, la ventana suave $w_t$ con respecto al paso de tiempo $t$ $(1 \leq t \leq T)$ se define mediante la siguiente convolución con una mezcla de $K$ funciones gaussianas donde $\phi(t,u)$ es el peso de la ventana de $c_u$ en el tiempo $t$ \cite{DBLP:journals/corr/Graves13}.
 
 \begin{equation}
 \begin{split}
@@ -160,8 +151,7 @@ $$w_t = \sum_{u=1}^U \phi(t,u)c_u$$
 \end{split}
 \end{equation}
 
-Intuitivamente, explica Graves, el parámetro $\kappa_t$ controla la ubicación de la ventana, los parámetros $\beta_t$ controlan el ancho de la ventana y los parámetros $\alpha_t$ controlan la importancia de la ventana dentro de la mezcla. Por otro lado, los parámetros de la ventana se calculan de la siguiente manera a partir de los datos de salida de la primera capa oculta del modelo.
-\cite{DBLP:journals/corr/Graves13}
+Intuitivamente, explica Graves, el parámetro $\kappa_t$ controla la ubicación de la ventana, los parámetros $\beta_t$ controlan el ancho de la ventana y los parámetros $\alpha_t$ controlan la importancia de la ventana dentro de la mezcla. Por otro lado, los parámetros de la ventana se calculan de la siguiente manera a partir de los datos de salida de la primera capa oculta del modelo \cite{DBLP:journals/corr/Graves13}.
 
 \begin{equation}
 \begin{split}
@@ -241,8 +231,7 @@ A continuación, se entrenará un modelo más compacto por más tiempo y se comp
 
 \vspace{1em}
 
-De igual forma que se hizo en el capítulo 4, en este modelo también podemos hacer que el modelo entregue elementos más probables de $P(x|c)$ para que las sucesiones sean más estables. Para hacer esto, se sesgará el sampleado hacia predicciones más probables en cada paso. Si $b$ es el sesgo de probabilidad, un real mayor o igual a cero, antes de samplear de $Pr(x_{t+1}|y_t)$, cada desviación estándar $\sigma_t^j$ en la mezcla gaussiana de la ecuación 5.3.6, se puede recalcular de la siguiente manera:
-\cite{DBLP:journals/corr/Graves13}
+De igual forma que se hizo en el capítulo 4, en este modelo también podemos hacer que el modelo entregue elementos más probables de $P(x|c)$ para que las sucesiones sean más estables. Para hacer esto, se sesgará el sampleado hacia predicciones más probables en cada paso. Si $b$ es el sesgo de probabilidad, un real mayor o igual a cero, antes de samplear de $Pr(x_{t+1}|y_t)$, cada desviación estándar $\sigma_t^j$ en la mezcla gaussiana de la ecuación 5.3.6, se puede recalcular de la siguiente manera \cite{DBLP:journals/corr/Graves13}:
 
 \begin{equation}
 \begin{split}
@@ -276,5 +265,4 @@ Esto reduce artificialmente la varianza tanto en la elección del componente de 
 
 \vspace{1em}
 
-Los resultados aquí expuestos muestran el poder que tienen los modelos explicados para generar sucesiones complejas de dependencias de largo plazo. La calidad de la escritura todavía podría mejorar si como (Graves, 2013) se utilizara un modelo más grande y se entrenara por más tiempo. Sin embargo, no se cuenta con la capacidad computacional necesaria y para este trabajo bastará mostrar el potencial que tienen los modelos.
-\cite{DBLP:journals/corr/Graves13}
+Los resultados aquí expuestos muestran el poder que tienen los modelos explicados para generar sucesiones complejas de dependencias de largo plazo. La calidad de la escritura todavía podría mejorar si como (Graves, 2013) se utilizara un modelo más grande y se entrenara por más tiempo. Sin embargo, no se cuenta con la capacidad computacional necesaria y para este trabajo bastará mostrar el potencial que tienen los modelos \cite{DBLP:journals/corr/Graves13}.

@@ -1,7 +1,5 @@
 \section{Introducción}
-En este capítulo, se entrenarán modelos de texto utilizando redes neuronales recurrentes con LSTM. El objetivo será generar sucesiones de texto que parezcan reales. Para hacer esto, se procesarán y entrenarán los modelos con diferentes bases de texto y después se generarán las sucesiones de la siguiente manera: se sampleará la distribución del modelo y después la predicción se utilizará como dato de entrada para el siguiente paso. En otras palabras, como explica (Graves, 2013), el modelo trata a sus invenciones como si fueran reales, de la misma manera que lo hace una persona cuando sueña. Para decidir los hiperparámetros de los modelos se utilizó como base el artículo mencionado de Alex Graves, así como el artículo $``$The Unreasonable Effectiveness of Recurrent Neural Networks$"$ escrito por Andrej Karpathy, estudiante de doctorado en aprendizaje profundo en Stanford.
-\cite{DBLP:journals/corr/Graves13}
-\cite{unreasonable}
+En este capítulo, se entrenarán modelos de texto utilizando redes neuronales recurrentes con LSTM. El objetivo será generar sucesiones de texto que parezcan reales. Para hacer esto, se procesarán y entrenarán los modelos con diferentes bases de texto y después se generarán las sucesiones de la siguiente manera: se sampleará la distribución del modelo y después la predicción se utilizará como dato de entrada para el siguiente paso. En otras palabras, como explica (Graves, 2013), el modelo trata a sus invenciones como si fueran reales, de la misma manera que lo hace una persona cuando sueña. Para decidir los hiperparámetros de los modelos se utilizó como base el artículo mencionado de Alex Graves, así como el artículo $``$The Unreasonable Effectiveness of Recurrent Neural Networks$"$ escrito por Andrej Karpathy \cite{DBLP:journals/corr/Graves13} \cite{unreasonable}.
 
 \vspace{1em}
 
@@ -9,8 +7,7 @@ Se utilizarán 3 bases de texto diferentes y se compararán los resultados obten
 
 \vspace{1em}
 
-Aunque generalmente los modelos de lenguaje se hacen a nivel palabra, en este trabajo se harán a nivel caracter. Esto se debe a varias razones. Por un lado, si el análisis se hace a nivel palabra, como el número de palabras es muy grande (a veces mayor a 100,000 incluyendo diferentes conjugaciones, nombres propios, etc.), el número de clases y parámetros es demasiado grande y eso aumenta el costo computacional. Por otro lado, predecir un caracter a la vez es más interesante desde el punto de vista de generación de sucesiones porque permite al modelo crear nuevas palabras. Por lo tanto, siguiendo el trabajo de (Graves, 2013), se predecirá con la granularidad más fina, nivel caracter, para maximizar la flexibilidad del modelo.
-\cite{DBLP:journals/corr/Graves13}
+Aunque generalmente los modelos de lenguaje se hacen a nivel palabra, en este trabajo se harán a nivel caracter. Esto se debe a varias razones. Por un lado, si el análisis se hace a nivel palabra, como el número de palabras es muy grande (a veces mayor a 100,000 incluyendo diferentes conjugaciones, nombres propios, etc.), el número de clases y parámetros es demasiado grande y eso aumenta el costo computacional. Por otro lado, predecir un caracter a la vez es más interesante desde el punto de vista de generación de sucesiones porque permite al modelo crear nuevas palabras. Por lo tanto, siguiendo el trabajo de (Graves, 2013), se predecirá con la granularidad más fina, nivel caracter, para maximizar la flexibilidad del modelo. \cite{DBLP:journals/corr/Graves13}.
 
 \section{Descripción de las bases de datos}
 
@@ -18,18 +15,14 @@ A continuación, se describirá cada base de datos y los modelos que se utilizar
 
 \subsection{Rayuela}
 Este libro de Julio Cortázar escrito en París y publicado en 1963 es una de las obras centrales del boom latinoamericano. En ella, Cortázar invita al lector a leer sus 155 capítulos en el orden que desee, por lo que se le suele llamar una $``$antinovela$"$ y esto hace que tenga una estructura interesante para generar nuevas sucesiones de ella.
-Esta base de datos se obtuvo de la página del Instituto Latinoamericano de la Comunicación Educativa (ILCE). Esta base tiene 972,231 caracteres y los conjuntos de validación y prueba tienen cada uno 100,000 caracteres.
-\cite{rayuela}
-\cite{cortazar}
+Esta base de datos se obtuvo de la página del Instituto Latinoamericano de la Comunicación Educativa (ILCE). Esta base tiene 972,231 caracteres y los conjuntos de validación y prueba tienen cada uno 100,000 caracteres \cite{rayuela} \cite{cortazar}.
 
 
 \subsection{La Biblia}
-La Biblia es uno de los libros más leídos y más famosos de la historia. Este texto está en inglés y se obtuvo de NLTK ($``$Natural Language Toolkit$"$), una plataforma dedicada a trabajar con datos de lenguaje humano. Esta base tiene 4,123,223 caracteres y los conjuntos de validación y prueba tienen cada uno 500,000 caracteres.
-\cite{nltk}
+La Biblia es uno de los libros más leídos y más famosos de la historia. Este texto está en inglés y se obtuvo de NLTK ($``$Natural Language Toolkit$"$), una plataforma dedicada a trabajar con datos de lenguaje humano. Esta base tiene 4,123,223 caracteres y los conjuntos de validación y prueba tienen cada uno 500,000 caracteres \cite{nltk}.
 
 \subsection{Concurso Hutter}
-Finalmente, siguiendo el trabajo de (Graves, 2013), se consideró el conjunto de datos del concurso $``$Hutter$"$. Esta base de datos contiene los primeros 100 millones de bytes de la página de Wikipedia en inglés. El archivo no solo incluye los datos comprimidos sino también el código para implementar el algoritmo de compresión. Además de contener muchas palabras del diccionario, la base de datos contiene muchas sucesiones de caracteres que normalmente no se usarían como por ejemplo etiquetas XML para definir los meta-datos, direcciones de páginas de internet y markup para formatear los datos (encabezados, listas, etc.). Esta base de datos contiene 82,551,973 caracteres y los conjuntos de validación y prueba tienen cada uno 1,000,000 de caracteres.
-\cite{DBLP:journals/corr/Graves13}
+Finalmente, siguiendo el trabajo de (Graves, 2013), se consideró el conjunto de datos del concurso $``$Hutter$"$. Esta base de datos contiene los primeros 100 millones de bytes de la página de Wikipedia en inglés. El archivo no solo incluye los datos comprimidos sino también el código para implementar el algoritmo de compresión. Además de contener muchas palabras del diccionario, la base de datos contiene muchas sucesiones de caracteres que normalmente no se usarían como por ejemplo etiquetas XML para definir los meta-datos, direcciones de páginas de internet y markup para formatear los datos (encabezados, listas, etc.). Esta base de datos contiene 82,551,973 caracteres y los conjuntos de validación y prueba tienen cada uno 1,000,000 de caracteres \cite{DBLP:journals/corr/Graves13}.
 
 
 \section{Resultados}
@@ -321,5 +314,4 @@ En las sucesiones de la tabla 4.6, se puede ver que el modelo ya escribe bastant
 
 \vspace{1em}
 
-Los resultados aquí mostrados están lejos aquellos mostrados por (Graves, 2013). Sin embargo, esto se puede explicar por la capacidad computacional a la que se tiene acceso. Graves, en su artículo, al analizar la base de datos del Premio Hutter, utiliza 7 capas ocultas con 700 unidades LSTM en cada una, un modelo que sería muy difícil y tardado de optimizar utilizando la computadora que se tiene disponible para hacer este trabajo.
-\cite{DBLP:journals/corr/Graves13}
+Los resultados aquí mostrados están lejos aquellos mostrados por (Graves, 2013). Sin embargo, esto se puede explicar por la capacidad computacional a la que se tiene acceso. Graves, en su artículo, al analizar la base de datos del Premio Hutter, utiliza 7 capas ocultas con 700 unidades LSTM en cada una, un modelo que sería muy difícil y tardado de optimizar utilizando la computadora que se tiene disponible para hacer este trabajo. Es por esta razón que hoy en día es tan importante la capacidad computacional al hacer aprendizaje de máquina. \cite{DBLP:journals/corr/Graves13}.
